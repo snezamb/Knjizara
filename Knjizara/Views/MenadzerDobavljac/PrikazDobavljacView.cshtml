@@ -1,0 +1,68 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.Dobavljaci
+
+@{
+    ViewBag.Title = "Prikaz dobavljaca";
+    Layout = "~/Views/Shared/_DobavljacLayoutPage.cshtml";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Podaci o dobavljacu</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("DobavljacIzmeni", "MenadzerDobavljac", FormMethod.Post, new { @class = "form" }))
+        {
+            // pamti DobavljacID
+            @Html.HiddenFor(m => m.DobavljacID, Model.DobavljacID)
+
+            // polje za unos naziva dobavljaca
+            <div class="form-group">
+                @Html.LabelFor(m => m.NazivDobavljaca, "Naziv dobavljaca")
+                @Html.TextBoxFor(m => m.NazivDobavljaca, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.NazivDobavljaca, null, new { @class = "text-danger" })
+            </div>
+
+            // polje za unos adrese dobavljaca
+            <div class="form-group">
+                @Html.LabelFor(m => m.Adresa, "Adresa dobavljaca")
+                @Html.TextBoxFor(m => m.Adresa, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Adresa, null, new { @class = "text-danger" })
+            </div>
+
+            // polje za unos telefona dobavljaca
+            <div class="form-group">
+                @Html.LabelFor(m => m.Telefon, "Telefon dobavljaca")
+                @Html.TextBoxFor(m => m.Telefon, null, new { @class = "form-control", id = "telefonDobavljac" })
+                @Html.ValidationMessageFor(m => m.Telefon, null, new { @class = "text-danger", id = "telefonDobavljacValidacija" })
+            </div>
+
+            <input type="submit" class="btn btn-info" value="Izmenite dobavljaca" id="izmeniteDobavljac" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var dobavljacTelefon = document.getElementById("telefonDobavljac");
+    dobavljacTelefon.addEventListener("blur", proveraTelefon);
+
+    var dobavljacIzmenite = document.getElementById("izmeniteDobavljac");
+    dobavljacIzmenite.addEventListener("click", izmenite);
+
+    function proveraTelefon() {
+        var telefon = document.getElementById("telefonDobavljac").value;
+
+        if (!telefon.match(/^[0-9]{7,7}$/)) {
+            document.getElementById("telefonDobavljacValidacija").innerHTML = "Moze se uneti sedam cifara";
+            document.getElementById("telefonDobavljac").focus();
+        }
+    }
+
+    function izmenite(e) {
+        var odgovor = confirm("Potvrdite izmenu dobavljaca");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili izmenu dobavljaca!");
+            e.preventDefault();
+        }
+    }
+</script>

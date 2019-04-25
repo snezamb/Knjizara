@@ -1,0 +1,180 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.Artikal
+
+@{
+    ViewBag.Title = "Artikli";
+    Layout = "~/Views/Shared/_ArtikalLayoutPage.cshtml";
+}
+
+@if (TempData["SifraArtikla"] != null && TempData["NazivArtikla"] != null)
+{
+    <div class="alert alert-success">Nov artikal sa sifrom @TempData["SifraArtikla"] i nazivom @TempData["NazivArtikla"] je uspesno unet u bazu knjizare</div>
+}
+
+@if (TempData["ArtikalSifra"] != null)
+{
+    <div class="alert alert-success">Artikal sa sifrom @TempData["ArtikalSifra"] je uspesno izbrisan iz baze knjizare</div>
+}
+
+@if (TempData["SifraIzmena"] != null)
+{
+    <div class="alert alert-success">Artikal sa sifrom @TempData["SifraIzmena"] je uspesno izmenjen u bazi knjizara</div>
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Unesite nov artikal u bazu knjizare</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("ArtikalUnesi", "MenadzerArtikal", FormMethod.Post, new { @class = "form" }))
+        {
+            // polje za unos sifre artikla
+            <div class="form-group">
+                @Html.LabelFor(m => m.ArtikalID, "Sifra artikla")
+                @Html.TextBoxFor(m => m.ArtikalID, null, new { @class = "form-control", placeholder = "Unesite sifru artikla", id = "sifraArtikal" })
+                @Html.ValidationMessageFor(m => m.ArtikalID, null, new { @class = "text-danger", id = "sifraArtikalValidacija" })
+            </div>
+
+            // polje za unos naziva artikla
+            <div class="form-group">
+                @Html.LabelFor(m => m.NazivArtikla, "Naziv artikla")
+                @Html.TextBoxFor(m => m.NazivArtikla, null, new { @class = "form-control", placeholder = "Unesite naziv artikla" })
+                @Html.ValidationMessageFor(m => m.NazivArtikla, null, new { @class = "text-danger" })
+            </div>
+
+            // polje za unos cene artikla
+            <div class="form-group">
+                @Html.LabelFor(m => m.Cena, "Cena artikla")
+                @Html.TextBoxFor(m => m.Cena, null, new { @class = "form-control", placeholder = "Unesite cenu artikla", id = "cenaArtikal" })
+                @Html.ValidationMessageFor(m => m.Cena, null, new { @class = "text-danger", id = "cenaArtikalValidacija" })
+            </div>
+
+            // polje za unos kolicine artikla
+            <div class="form-group">
+                @Html.LabelFor(m => m.Kolicina, "Kolicina artikla")
+                @Html.TextBoxFor(m => m.Kolicina, null, new { @class = "form-control", placeholder = "Unesite kolicinu artikla", id = "kolicinaArtikal" })
+                @Html.ValidationMessageFor(m => m.Kolicina, null, new { @class = "text-danger", id = "kolicinaArtikalValidacija" })
+            </div>
+
+            // dropdownlist za izbor dobavljaca artikla
+            <div class="form-group">
+                @Html.LabelFor(m => m.Dobavljac, "Dobavljac artikla")
+                @Html.DropDownList("listaDobavljaca", (IEnumerable<SelectListItem>)ViewBag.podaciDobavljaci)
+            </div>
+
+            <input type="submit" class="btn btn-info" value="Unesite nov artikal" id="unesiteNovArtikal" />
+        }
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">Izaberite artikal iz baze knjizare</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("ArtikalBrisiPrikazi", "MenadzerArtikal", FormMethod.Post, new { @class = "form" }))
+        {
+            // dropdownlist za izbor artikla
+            <div class="form-group">
+                @Html.LabelFor(m => m.NazivArtikla, "Naziv artikla")
+                @Html.DropDownList("listaArtikala", (IEnumerable<SelectListItem>)ViewBag.podaciArtikli)
+            </div>
+
+            <input type="submit" class="btn btn-info" name="dugme" value="Izbrisite artikal" id="izbrisiteArtikal" />
+            <input type="submit" class="btn btn-info" name="dugme" value="Prikazite artikal" id="prikaziteArtikal" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var artikalSifra = document.getElementById("sifraArtikal");
+    artikalSifra.addEventListener("blur", proveraSifra);
+
+    var artikalCena = document.getElementById("cenaArtikal");
+    artikalCena.addEventListener("blur", proveraCena);
+
+    var artikalKolicina = document.getElementById("kolicinaArtikal");
+    artikalKolicina.addEventListener("blur", proveraKolicina);
+
+    var artikalUnesiteNov = document.getElementById("unesiteNovArtikal");
+    artikalUnesiteNov.addEventListener("click", unesiteNov);
+
+    var artikalIzbrisite = document.getElementById("izbrisiteArtikal");
+    artikalIzbrisite.addEventListener("click", izbrisite);
+
+    var artikalPrikazite = document.getElementById("prikaziteArtikal");
+    artikalPrikazite.addEventListener("click", prikazite);
+
+    function proveraSifra() {
+        var sifra = document.getElementById("sifraArtikal").value;
+
+        if (!sifra.match(/^\d+/gm)) {
+            document.getElementById("sifraArtikalValidacija").innerHTML = "Moze se uneti cifra";
+            document.getElementById("sifraArtikal").focus();
+        }
+    }
+
+    function proveraCena() {
+        var kolicina = document.getElementById("cenaArtikal").value;
+
+        if (!kolicina.match(/[0-9]+([.|,][0-9]+)?/)) {
+            document.getElementById("cenaArtikalValidacija").innerHTML = "Moze se uneti broj ili decimalan broj";
+            document.getElementById("cenaArtikal").focus();
+        }
+    }
+
+    function proveraKolicina() {
+        var kolicina = document.getElementById("kolicinaArtikal").value;
+
+        if (!kolicina.match(/^\d+/gm)) {
+            document.getElementById("kolicinaArtikalValidacija").innerHTML = "Moze se uneti cifra";
+            document.getElementById("kolicinaArtikal").focus();
+        }
+    }
+
+    function unesiteNov(e) {
+        var uslov = false;
+
+        var textPolja = document.getElementsByClassName("form-control");
+        for (element of textPolja) {
+            if (element.value == "" || element.value == null) {
+                element.placeholder = "Polje je obavezno";
+            }
+            else {
+                uslov = true;
+            }
+        }
+
+        if (uslov) {
+            var potvrda = confirm("Potvrdite unos artikla");
+
+            if (potvrda) {
+                e.default();
+            }
+            else {
+                alert("Niste uneli artikal!");
+                e.preventDefault();
+            }
+        }
+        else {
+            alert("Niste uneli artikal!");
+            e.preventDefault();
+        }
+    }
+
+    function izbrisite(e) {
+        var odgovor = confirm("Potvrdite brisanje artikla");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili brisanje artikla!");
+            e.preventDefault();
+        }
+    }
+
+    function prikazite(e) {
+        var odgovor = confirm("Potvrdite prikazivanje artikla");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili prikazivanje artikla!");
+            e.preventDefault();
+        }
+    }
+</script>

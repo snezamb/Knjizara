@@ -1,0 +1,46 @@
+﻿@using Knjizara.Models
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Narudzbenice</div>
+    <div class="panel-body">
+        @if (TempData["zaposleni"] != null)
+        {
+            int brojac = 0;
+
+            <table class="table table-condensed table-hover">
+                <tbody>
+                    @foreach (NarudzbenicaViewModel narudzbenica in NarudzbenicaMenadzer.PrikaziSveNarudzbenice(TempData["zaposleni"].ToString()))
+                    {
+                        brojac++;
+                        <tr><td><b>Redni broj narudzbenice</b></td><td><b>@brojac</b></td></tr>
+                        <tr><td>Sifra narudzbenice</td><td>@narudzbenica.NarudzbenicaID</td></tr>
+                        <tr><td>Datum narudzbenice</td><td>@narudzbenica.Datum</td></tr>
+                        <tr><td>Stavke narudzbenice</td></tr>
+                        <tr>
+                            <td>Redni broj</td>
+                            <td>Artikal</td>
+                            <td>Kolicina</td>
+                            <td>Cena</td>
+                        </tr>
+                        foreach (StavkaNarudzbenicaViewModel stavka in NarudzbenicaMenadzer.PrikaziSveStavkeNarudzbenice(narudzbenica.NarudzbenicaID))
+                        {
+                            <tr>
+                                <td>@stavka.RedniBroj</td>
+                                <td>@stavka.Artikal</td>
+                                <td>@stavka.Kolicina</td>
+                                <td>@stavka.Cena</td>
+                            </tr>
+                        }
+                        <tr><td>Ukupna cena narudzbenice</td><td>@narudzbenica.UkupnaCena</td></tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table class="table table-condensed table-hover">
+                <thead>Trenutno nema racuna</thead>
+            </table>
+        }
+    </div>
+</div>

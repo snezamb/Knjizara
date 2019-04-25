@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "Knjizara";
+    Layout = "~/Views/Shared/_KnjizaraLayoutPage.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>KnjizaraView</title>
+</head>
+<body>
+    <h1 class="page-header text-center">Dobro dosli</h1>
+    <div class="panel panel-primary">
+        <div class="panel-heading">Izaberite opciju</div>
+        <div class="panel-body">
+            <table class="table table-condensed table-hover">
+                <tbody>
+                    <tr>
+                        <td>@Html.ActionLink("Knjige", "KupacView", "Kupac")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Artikli", "MenadzerArtikalView", "MenadzerArtikal")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Dobavljaci", "MenadzerDobavljacView", "MenadzerDobavljac")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Korisnici", "MenadzerKorisnikView", "MenadzerKorisnik")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Narudzbenice", "ZaposleniSveNarudzbeniceView", "ZaposleniNarudzbenica")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Narudzbenice knjizare", "MenadzerNarudzbenicaView", "MenadzerNarudzbenica")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Racuni", "ZaposleniSviRacuniView", "ZaposleniRacun")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.ActionLink("Racuni knjizare", "MenadzerRacunView", "MenadzerRacun")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

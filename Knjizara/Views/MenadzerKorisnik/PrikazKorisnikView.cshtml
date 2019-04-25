@@ -1,0 +1,99 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.Korisnik
+
+@{
+    ViewBag.Title = "Prikaz korisnika";
+    Layout = "~/Views/Shared/_KorisnikLayoutPage.cshtml";
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Podaci o korisniku</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("KorisnikIzmeni", "MenadzerKorisnik", FormMethod.Post, new { @class = "form" }))
+        {
+            // pamti KorisnickoIme
+            @Html.HiddenFor(m => m.KorisnickoIme, Model.KorisnickoIme)
+
+            // polje za unos imena korisnika
+            <div class="form-group">
+                @Html.LabelFor(m => m.Ime, "Ime korisnika")
+                @Html.TextBoxFor(m => m.Ime, null, new { @class = "form-control", id = "imeKorisnik" })
+                @Html.ValidationMessageFor(m => m.Ime, null, new { @class = "text-danger", id = "imeKorisnikValidacija" })
+            </div>
+
+            // polje za unos prezimena korisnika
+            <div class="form-group">
+                @Html.LabelFor(m => m.Prezime, "Prezime korisnika")
+                @Html.TextBoxFor(m => m.Prezime, null, new { @class = "form-control", id = "prezimeKorisnik" })
+                @Html.ValidationMessageFor(m => m.Prezime, null, new { @class = "text-danger", id = "prezimeKorisnikValidacija" })
+            </div>
+
+            // polje za unos JMBGa korisnika
+            <div class="form-group">
+                @Html.LabelFor(m => m.JMBG, "JMBG korisnika")
+                @Html.TextBoxFor(m => m.JMBG, null, new { @class = "form-control", id = "jmbgKorisnik" })
+                @Html.ValidationMessageFor(m => m.JMBG, null, new { @class = "text-danger", id = "jmbgKorisnikValidacija" })
+            </div>
+
+            // polje za unos lozinke korisnika
+            <div class="form-group">
+                @Html.LabelFor(m => m.Lozinka, "Lozinka korisnika")
+                @Html.TextBoxFor(m => m.Lozinka, null, new { @class = "form-control", @type = "password" })
+                @Html.ValidationMessageFor(m => m.Lozinka, null, new { @class = "text-danger" })
+            </div>
+
+            <input type="submit" class="btn btn-info" value="Izmenite korisnika" id="izmeniteKorisnik" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var korisnikIme = document.getElementById("imeKorisnik");
+    korisnikIme.addEventListener("blur", proveraIme);
+
+    var korisnikPrezime = document.getElementById("prezimeKorisnik");
+    korisnikPrezime.addEventListener("blur", proveraPrezime);
+
+    var korisnikJmbg = document.getElementById("jmbgKorisnik");
+    korisnikJmbg.addEventListener("blur", proveraJmbg);
+
+    var korisnikIzmenite = document.getElementById("izmeniteKorisnik");
+    korisnikIzmenite.addEventListener("click", izmenite);
+
+    function proveraIme() {
+        var ime = document.getElementById("imeKorisnik").value;
+
+        if (!ime.match(/[a-zA-Z]+/g)) {
+            document.getElementById("imeKorisnikValidacija").innerHTML = "Moze se uneti malo ili veliko slovo";
+            document.getElementById("imeKorisnik").focus();
+        }
+    }
+
+    function proveraPrezime() {
+        var prezime = document.getElementById("prezimeKorisnik").value;
+
+        if (!prezime.match(/[a-zA-Z]+/g)) {
+            document.getElementById("prezimeKorisnikValidacija").innerHTML = "Moze se uneti malo ili veliko slovo";
+            document.getElementById("prezimeKorisnik").focus();
+        }
+    }
+
+    function proveraJmbg() {
+        var jmbg = document.getElementById("jmbgKorisnik").value;
+
+        if (!jmbg.match(/^[0-9]{13,13}$/)) {
+            document.getElementById("jmbgKorisnikValidacija").innerHTML = "Moze se uneti trinaest cifara";
+            document.getElementById("jmbgKorisnik").focus();
+        }
+    }
+
+    function izmenite(e) {
+        var odgovor = confirm("Potvrdite izmenu korisnika");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili izmenu korisnika!");
+            e.preventDefault();
+        }
+    }
+</script>

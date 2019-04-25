@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="KnjizaraModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Artikal">
+    <Key>
+      <PropertyRef Name="ArtikalID" />
+    </Key>
+    <Property Name="ArtikalID" Type="int" Nullable="false" />
+    <Property Name="NazivArtikla" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Cena" Type="real" Nullable="false" />
+    <Property Name="Kolicina" Type="int" Nullable="false" />
+    <Property Name="Dobavljac" Type="int" Nullable="false" />
+    <Property Name="Aktivan" Type="int" />
+  </EntityType>
+  <EntityType Name="Dobavljaci">
+    <Key>
+      <PropertyRef Name="DobavljacID" />
+    </Key>
+    <Property Name="DobavljacID" Type="int" Nullable="false" />
+    <Property Name="NazivDobavljaca" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Adresa" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Telefon" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Aktivan" Type="int" />
+  </EntityType>
+  <EntityType Name="Korisnik">
+    <Key>
+      <PropertyRef Name="KorisnickoIme" />
+    </Key>
+    <Property Name="KorisnickoIme" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Ime" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Prezime" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="JMBG" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Lozinka" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Uloga" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Narudzbenica">
+    <Key>
+      <PropertyRef Name="NarudzbenicaID" />
+    </Key>
+    <Property Name="NarudzbenicaID" Type="int" Nullable="false" />
+    <Property Name="Datum" Type="date" Nullable="false" />
+    <Property Name="UkupnaCena" Type="real" Nullable="false" />
+    <Property Name="Zaposleni" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Racun">
+    <Key>
+      <PropertyRef Name="RacunID" />
+    </Key>
+    <Property Name="RacunID" Type="int" Nullable="false" />
+    <Property Name="Datum" Type="date" Nullable="false" />
+    <Property Name="UkupnaCena" Type="real" Nullable="false" />
+    <Property Name="Zaposleni" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StavkaNarudzbenica">
+    <Key>
+      <PropertyRef Name="Narudzbenica" />
+      <PropertyRef Name="RedniBroj" />
+    </Key>
+    <Property Name="Narudzbenica" Type="int" Nullable="false" />
+    <Property Name="RedniBroj" Type="int" Nullable="false" />
+    <Property Name="Artikal" Type="int" Nullable="false" />
+    <Property Name="Kolicina" Type="int" Nullable="false" />
+    <Property Name="Cena" Type="real" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StavkaRacun">
+    <Key>
+      <PropertyRef Name="Racun" />
+      <PropertyRef Name="RedniBroj" />
+    </Key>
+    <Property Name="Racun" Type="int" Nullable="false" />
+    <Property Name="RedniBroj" Type="int" Nullable="false" />
+    <Property Name="Artikal" Type="int" Nullable="false" />
+    <Property Name="Kolicina" Type="int" Nullable="false" />
+    <Property Name="Cena" Type="real" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Uloge">
+    <Key>
+      <PropertyRef Name="UlogaID" />
+    </Key>
+    <Property Name="UlogaID" Type="int" Nullable="false" />
+    <Property Name="Opis" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Artikal_Dobavljac1">
+    <End Role="Dobavljaci" Type="Self.Dobavljaci" Multiplicity="1" />
+    <End Role="Artikal" Type="Self.Artikal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dobavljaci">
+        <PropertyRef Name="DobavljacID" />
+      </Principal>
+      <Dependent Role="Artikal">
+        <PropertyRef Name="Dobavljac" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Korisnik_Uloge">
+    <End Role="Uloge" Type="Self.Uloge" Multiplicity="1" />
+    <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Uloge">
+        <PropertyRef Name="UlogaID" />
+      </Principal>
+      <Dependent Role="Korisnik">
+        <PropertyRef Name="Uloga" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Narudzbenica_Korisnik">
+    <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+    <End Role="Narudzbenica" Type="Self.Narudzbenica" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Korisnik">
+        <PropertyRef Name="KorisnickoIme" />
+      </Principal>
+      <Dependent Role="Narudzbenica">
+        <PropertyRef Name="Zaposleni" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Racun_Korisnik">
+    <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+    <End Role="Racun" Type="Self.Racun" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Korisnik">
+        <PropertyRef Name="KorisnickoIme" />
+      </Principal>
+      <Dependent Role="Racun">
+        <PropertyRef Name="Zaposleni" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StavkaNarudzbenica_Artikal">
+    <End Role="Artikal" Type="Self.Artikal" Multiplicity="1" />
+    <End Role="StavkaNarudzbenica" Type="Self.StavkaNarudzbenica" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Artikal">
+        <PropertyRef Name="ArtikalID" />
+      </Principal>
+      <Dependent Role="StavkaNarudzbenica">
+        <PropertyRef Name="Artikal" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StavkaNarudzbenica_Narudzbenica">
+    <End Role="Narudzbenica" Type="Self.Narudzbenica" Multiplicity="1" />
+    <End Role="StavkaNarudzbenica" Type="Self.StavkaNarudzbenica" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Narudzbenica">
+        <PropertyRef Name="NarudzbenicaID" />
+      </Principal>
+      <Dependent Role="StavkaNarudzbenica">
+        <PropertyRef Name="Narudzbenica" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StavkaRacun_Artikal">
+    <End Role="Artikal" Type="Self.Artikal" Multiplicity="1" />
+    <End Role="StavkaRacun" Type="Self.StavkaRacun" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Artikal">
+        <PropertyRef Name="ArtikalID" />
+      </Principal>
+      <Dependent Role="StavkaRacun">
+        <PropertyRef Name="Artikal" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StavkaRacun_Racun">
+    <End Role="Racun" Type="Self.Racun" Multiplicity="1" />
+    <End Role="StavkaRacun" Type="Self.StavkaRacun" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Racun">
+        <PropertyRef Name="RacunID" />
+      </Principal>
+      <Dependent Role="StavkaRacun">
+        <PropertyRef Name="Racun" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="KnjizaraModelStoreContainer">
+    <EntitySet Name="Artikal" EntityType="Self.Artikal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Dobavljaci" EntityType="Self.Dobavljaci" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Korisnik" EntityType="Self.Korisnik" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Narudzbenica" EntityType="Self.Narudzbenica" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Racun" EntityType="Self.Racun" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StavkaNarudzbenica" EntityType="Self.StavkaNarudzbenica" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StavkaRacun" EntityType="Self.StavkaRacun" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Uloge" EntityType="Self.Uloge" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Artikal_Dobavljac1" Association="Self.FK_Artikal_Dobavljac1">
+      <End Role="Dobavljaci" EntitySet="Dobavljaci" />
+      <End Role="Artikal" EntitySet="Artikal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Korisnik_Uloge" Association="Self.FK_Korisnik_Uloge">
+      <End Role="Uloge" EntitySet="Uloge" />
+      <End Role="Korisnik" EntitySet="Korisnik" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Narudzbenica_Korisnik" Association="Self.FK_Narudzbenica_Korisnik">
+      <End Role="Korisnik" EntitySet="Korisnik" />
+      <End Role="Narudzbenica" EntitySet="Narudzbenica" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Racun_Korisnik" Association="Self.FK_Racun_Korisnik">
+      <End Role="Korisnik" EntitySet="Korisnik" />
+      <End Role="Racun" EntitySet="Racun" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StavkaNarudzbenica_Artikal" Association="Self.FK_StavkaNarudzbenica_Artikal">
+      <End Role="Artikal" EntitySet="Artikal" />
+      <End Role="StavkaNarudzbenica" EntitySet="StavkaNarudzbenica" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StavkaNarudzbenica_Narudzbenica" Association="Self.FK_StavkaNarudzbenica_Narudzbenica">
+      <End Role="Narudzbenica" EntitySet="Narudzbenica" />
+      <End Role="StavkaNarudzbenica" EntitySet="StavkaNarudzbenica" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StavkaRacun_Artikal" Association="Self.FK_StavkaRacun_Artikal">
+      <End Role="Artikal" EntitySet="Artikal" />
+      <End Role="StavkaRacun" EntitySet="StavkaRacun" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StavkaRacun_Racun" Association="Self.FK_StavkaRacun_Racun">
+      <End Role="Racun" EntitySet="Racun" />
+      <End Role="StavkaRacun" EntitySet="StavkaRacun" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

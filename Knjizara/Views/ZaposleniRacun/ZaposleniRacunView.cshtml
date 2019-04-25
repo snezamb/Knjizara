@@ -1,0 +1,95 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.Racun
+
+@{
+    ViewBag.Title = "Racun";
+    Layout = "~/Views/Shared/_RacunLayoutPage.cshtml";
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Kreirajte nov racun</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("RacunKreiraj", "ZaposleniRacun", FormMethod.Post, new { @class = "form" }))
+        {
+            // polje za unos sifre racuna
+            <div class="form-group">
+                @Html.LabelFor(m => m.RacunID, "Sifra racuna")
+                @Html.TextBoxFor(m => m.RacunID, null, new { @class = "form-control", placeholder = "Unesite sifru racuna", id = "sifraRacun" })
+                @Html.ValidationMessageFor(m => m.RacunID, null, new { @class = "text-danger", id = "sifraRacunValidacija" })
+            </div>
+
+            // polje za unos datuma racuna
+            <div class="form-group">
+                @Html.LabelFor(m => m.Datum, "Datum racuna")
+                @Html.TextBoxFor(m => m.Datum, null, new { @class = "form-control", placeholder = "Unesite datum racuna", id = "datumRacun" })
+                @Html.ValidationMessageFor(m => m.Datum, null, new { @class = "text-danger", id = "datumRacunValidacija" })
+            </div>
+
+            // polje za unos zaposlenog
+            <div class="form-group">
+                @Html.LabelFor(m => m.Zaposleni, "Zaposleni")
+                <p class="text-center">@User.Identity.Name</p>
+            </div>
+
+            <input type="submit" class="btn btn-info" value="Kreirajte stavke racuna" id="kreirajteNovRacun" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var racunSifra = document.getElementById("sifraRacun");
+    racunSifra.addEventListener("blur", proveraSifra);
+
+    var racunDatum = document.getElementById("datumRacun");
+    racunDatum.addEventListener("blur", proveraDatum);
+
+    var racunKreirajteNov = document.getElementById("kreirajteNovRacun");
+    racunKreirajteNov.addEventListener("click", kreirajteNov);
+
+    function proveraSifra() {
+        var sifra = document.getElementById("sifraRacun").value;
+
+        if (!sifra.match(/^\d+/gm)) {
+            document.getElementById("sifraRacunValidacija").innerHTML = "Moze se uneti cifra";
+            document.getElementById("sifraRacun").focus();
+        }
+    }
+
+    function proveraDatum() {
+        var datum = document.getElementById("datumRacun").value;
+
+        if (!datum.match(/^(0[1-9]|[12]\d|3[01])[\/](0[1-9]|1[0-2])[\/](19|20)\d{2}$/g)) {
+            document.getElementById("datumRacunValidacija").innerHTML = "Moze se uneti datum";
+            document.getElementById("datumRacun").focus();
+        }
+    }
+
+    function kreirajteNov(e) {
+        var uslov = false;
+
+        var textPolja = document.getElementsByClassName("form-control");
+        for (element of textPolja) {
+            if (element.value == "" || element.value == null) {
+                element.placeholder = "Polje je obavezno";
+            }
+            else {
+                uslov = true;
+            }
+        }
+
+        if (uslov) {
+            var potvrda = confirm("Potvrdite kreiranje racuna");
+
+            if (potvrda) {
+                e.default();
+            }
+            else {
+                alert("Niste kreirali racun!");
+                e.preventDefault();
+            }
+        }
+        else {
+            alert("Niste kreirali racun!");
+            e.preventDefault();
+        }
+    }
+</script>

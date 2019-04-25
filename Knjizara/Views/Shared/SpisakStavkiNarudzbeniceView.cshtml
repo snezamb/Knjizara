@@ -1,0 +1,37 @@
+﻿@using Knjizara.Models
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Spisak stavki narudzbenice @TempData["SifraNarudzbenica"]</div>
+    <div class="panel-body">
+        @if (TempData["SifraNarudzbenica"] != null && StavkaNarudzbenicaZaposleni.PrikaziSveStavkeNarudzbenice(Convert.ToInt32(TempData["SifraNarudzbenica"])).Count() != 0)
+        {
+            <table class="table table-condensed table-hover">
+                <thead>
+                <td>Sifra narudzbenice</td>
+                <td>Redni broj</td>
+                <td>Artikal</td>
+                <td>Kolicina</td>
+                <td>Cena</td>
+                </thead>
+                <tbody>
+                    @foreach (StavkaNarudzbenicaViewModel stavka in StavkaNarudzbenicaZaposleni.PrikaziSveStavkeNarudzbenice(Convert.ToInt32(TempData["SifraNarudzbenica"])))
+                    {
+                        <tr>
+                            <td>@stavka.Narudzbenica</td>
+                            <td>@stavka.RedniBroj</td>
+                            <td>@stavka.Artikal</td>
+                            <td>@stavka.Kolicina</td>
+                            <td>@stavka.Cena</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table class="table table-condensed table-hover">
+                <thead>Trenutno nema stavki narudzbenice</thead>
+            </table>
+        }
+    </div>
+</div>

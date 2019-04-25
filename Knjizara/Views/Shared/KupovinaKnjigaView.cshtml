@@ -1,0 +1,42 @@
+﻿@using Knjizara.Models
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Kupljene knjige</div>
+    <div class="panel-body">
+        @if (TempData["Kupovina"] != null && TempData["UkupnaCena"] != null)
+        {
+            int brojac = 0;
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <td>Redni broj</td>
+                    <td>Artikal</td>
+                    <td>Cena</td>
+                    <td>Kolicina</td>
+                    <td>Ukupna cena</td>
+                    <td>Izdavac</td>
+                </thead>
+                <tbody>
+                    @foreach (KupacViewModel kupovina in Kupac.PrikaziSveArtikle((List<Artikal>)TempData["Kupovina"]))
+                    {
+                        brojac++;
+                        <tr>
+                            <td>@brojac</td>
+                            <td>@kupovina.NazivArtikla</td>
+                            <td>@kupovina.Cena</td>
+                            <td>@kupovina.Kolicina</td>
+                            <td>@kupovina.UkupnaCena</td>
+                            <td>@kupovina.Dobavljac</td>
+                        </tr>
+                    }
+                    <tr><td>Ukupna cena kupovine</td><td></td><td></td><td></td><td>@float.Parse(TempData["UkupnaCena"].ToString())</td><td></td></tr>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table class="table table-condensed table-hover">
+                <thead>Trenutno nema knjiga</thead>
+            </table>
+        }
+    </div>
+</div>

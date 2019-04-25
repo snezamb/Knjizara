@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Knjizara.css" rel="stylesheet" />
+</head>
+<body>
+    <header class="page-header row">
+        @if (Request.IsAuthenticated)
+        {
+            <div class="col-md-4 col-md-offset-8 text-right">
+                Prijavljeni ste kao @User.Identity.Name
+                <br />
+                @Html.ActionLink("Odjava", "Odjava", "RegistracijaPrijavaOdjava", null, new { @class = "text-right" })
+            </div>
+        }
+    </header>
+    <div class="container">
+        <div class="row">
+            <h1 class="page-header text-center">Knjizara</h1>
+            @RenderBody()
+        </div>
+    </div>
+    <footer class="row">
+        <p class="text-center">Copyright &copy; Snezana Milosavljevic 2019</p>
+    </footer>
+</body>
+</html>

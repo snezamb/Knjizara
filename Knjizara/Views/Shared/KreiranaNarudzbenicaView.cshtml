@@ -1,0 +1,46 @@
+﻿@using Knjizara.Models
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Narudzbenica @TempData["SifraNarudzbenica"]</div>
+    <div class="panel-body">
+        @if (TempData["SifraNarudzbenica"] != null)
+        {
+            <table class="table table-condensed table-hover">
+                <tbody>
+                    @foreach (NarudzbenicaViewModel narudzbenica in NarudzbenicaZaposleni.PrikaziSveNarudzbenice(User.Identity.Name))
+                    {
+                        if (narudzbenica.NarudzbenicaID == Convert.ToInt32(TempData["SifraNarudzbenica"]))
+                        {
+                            <tr><td>Sifra narudzbenice</td><td>@narudzbenica.NarudzbenicaID</td></tr>
+                            <tr><td>Datum narudzbenice</td><td>@narudzbenica.Datum</td></tr>
+                            <tr><td>Stavke nerudzbenice</td></tr>
+                            <tr>
+                                <td>Redni broj</td>
+                                <td>Artikal</td>
+                                <td>Kolicina</td>
+                                <td>Cena</td>
+                            </tr>
+                            foreach (StavkaNarudzbenicaViewModel stavka in StavkaNarudzbenicaZaposleni.PrikaziSveStavkeNarudzbenice(Convert.ToInt32(TempData["SifraNarudzbenica"])))
+                            {
+                                <tr>
+                                    <td>@stavka.RedniBroj</td>
+                                    <td>@stavka.Artikal</td>
+                                    <td>@stavka.Kolicina</td>
+                                    <td>@stavka.Cena</td>
+                                </tr>
+                            }
+                            <tr><td>Ukupna cena narudzbenice</td><td>@narudzbenica.UkupnaCena</td></tr>
+                            <tr><td>Zaposleni</td><td>@narudzbenica.Zaposleni</td></tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table class="table table-condensed table-hover">
+                <thead>Trenutno nema narudzbenice</thead>
+            </table>
+        }
+    </div>
+</div>

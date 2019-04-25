@@ -1,0 +1,78 @@
+﻿@using Knjizara.Models
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Spisak artikala knjizare</div>
+    <div class="panel-body">
+        @if (TempData["PrikazArtikal"] != null || TempData["PamtiStarArtikal"] != null)
+        {
+            int brojac = 0;
+
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <td>Redni broj</td>
+                    <td>Sifra artikla</td>
+                    <td>Naziv artikla</td>
+                    <td>Cena artikla</td>
+                    <td>Kolicina artikla</td>
+                    <td>Dobavljac artikla</td>
+                    <td>Aktivan artikal</td>
+                </thead>
+                <tbody>
+                    @foreach (ArtikalViewModel artikal in ArtikalMenadzer.PrikaziSveArtikle())
+                    {
+                        if (artikal.ArtikalID == Convert.ToInt32(TempData["PrikazArtikal"]) || artikal.ArtikalID == Convert.ToInt32(TempData["PamtiStarArtikal"]))
+                        {
+                            brojac++;
+
+                            <tr>
+                                <td>@brojac</td>
+                                <td>@artikal.ArtikalID</td>
+                                <td>@artikal.NazivArtikla</td>
+                                <td>@artikal.Cena</td>
+                                <td>@artikal.Kolicina</td>
+                                <td>@artikal.Dobavljac</td>
+                                @if (artikal.Aktivan == 1) { <td>Da</td>}
+                                else if (artikal.Aktivan == 0) { <td>Ne</td>}
+                                else { <td>--</td>}
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            int brojac = 0;
+
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <td>Redni broj</td>
+                    <td>Sifra artikla</td>
+                    <td>Naziv artikla</td>
+                    <td>Cena artikla</td>
+                    <td>Kolicina artikla</td>
+                    <td>Dobavljac artikla</td>
+                    <td>Aktivan artikal</td>
+                </thead>
+                <tbody>
+                    @foreach (ArtikalViewModel artikal in ArtikalMenadzer.PrikaziSveArtikle())
+                    {
+                        brojac++;
+
+                        <tr>
+                            <td>@brojac</td>
+                            <td>@artikal.ArtikalID</td>
+                            <td>@artikal.NazivArtikla</td>
+                            <td>@artikal.Cena</td>
+                            <td>@artikal.Kolicina</td>
+                            <td>@artikal.Dobavljac</td>
+                            @if (artikal.Aktivan == 1) { <td>Da</td>}
+                            else if (artikal.Aktivan == 0) { <td>Ne</td>}
+                            else { <td>--</td>}
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

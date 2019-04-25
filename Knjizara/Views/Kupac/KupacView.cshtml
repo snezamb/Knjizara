@@ -1,0 +1,67 @@
+﻿@using Knjizara.Models
+
+@{
+    ViewBag.Title = "Kupac";
+    Layout = "~/Views/Shared/_KupacLayoutPage.cshtml";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Knjige u knjizari</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("KupacView", "Kupac", FormMethod.Post, new { @class = "form" }))
+        {
+            foreach (ArtikalViewModel knjiga in Kupac.PrikaziSveArtikle())
+            {
+                <img src="~/Content/Knjiga.jpg" alt="Knjiga" width="100" height="50"/>
+                @Html.Label(knjiga.NazivArtikla)
+                @Html.Hidden("Sifra", knjiga.ArtikalID)
+                <br />
+                @Html.TextBox("Kolicina", null, new { @class = "form-control", placeholder = "Unesite kolicinu artikla"})
+                @Html.ValidationMessage("Kolicina", null, new { @class = "text-danger"})
+                <br />
+                <br />
+                <br />
+            }
+
+            <input type="submit" class="btn btn-primary" value="Kupite knjige" id="kupiteKnjige" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var knjigeKupite = document.getElementById("kupiteKnjige");
+    knjigeKupite.addEventListener("click", kupite);
+
+    function kupite(e) {
+        var uslov = true;
+
+        var textPolja = document.getElementsByClassName("form-control");
+        var validationPolja = document.getElementsByClassName("text-danger");
+        for (element of textPolja) {
+            if (!element.value == "" || !element.value == null) {
+                if (!element.value.match(/^\d+/gm)) {
+                    for (element1 of validationPolja) {
+                        element1.innerHTML = "Moze se uneti cifra";
+                        element.focus();
+                        uslov = false;
+                    }
+                }
+            }
+        }
+
+        if (uslov) {
+            var potvrda = confirm("Potvrdite kupovinu knjiga");
+
+            if (potvrda) {
+                e.default();
+            }
+            else {
+                alert("Niste kupili knjige!");
+                e.preventDefault();
+            }
+        }
+        else {
+            alert("Niste kupili knjige!");
+            e.preventDefault();
+        }
+    }
+</script>

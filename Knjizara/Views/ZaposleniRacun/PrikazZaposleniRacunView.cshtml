@@ -1,0 +1,57 @@
+﻿@using Knjizara.Models
+
+@{
+    ViewBag.Title = "Prikaz racuna";
+    Layout = "~/Views/Shared/_RacunLayoutPage.cshtml";
+}
+
+@if (TempData["SifraRacun"] != null && TempData["StavkaRacunIzmena"] != null)
+{
+    <div class="alert alert-success">Stavka racuna @TempData["SifraRacun"] s rednim brojem @TempData["StavkaRacunIzmena"] je uspesno izmenjena</div>
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Kreirani racuni</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("KreiranRacun", "ZaposleniRacun", FormMethod.Post, new { @class = "form" }))
+        {
+            // dropdownlist za izbor racuna
+            <div class="form-group">
+                @Html.Label("Sifra racuna")
+                @Html.DropDownList("listaRacuna", (IEnumerable<SelectListItem>)ViewBag.podaciRacuni)
+            </div>
+
+            <input type="submit" class="btn btn-info" name="dugme" value="Prikazite kreiran racun" id="prikaziteRacun" />
+            <input type="submit" class="btn btn-info" name="dugme" value="Izmenite kreiran racun" id="izmeniteRacun" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var racunPrikazite = document.getElementById("prikaziteRacun");
+    racunPrikazite.addEventListener("click", kreirajte);
+
+    var racunIzmenite = document.getElementById("izmeniteRacun");
+    racunIzmenite.addEventListener("click", izmenite);
+
+    function kreirajte(e) {
+        var odgovor = confirm("Potvrdite prikazivanje racuna");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili prikazivanje racuna!");
+            e.preventDefault();
+        }
+    }
+
+    function izmenite(e) {
+        var odgovor = confirm("Potvrdite izmenu racuna");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili izmenu racuna!");
+            e.preventDefault();
+        }
+    }
+</script>

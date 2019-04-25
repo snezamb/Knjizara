@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Knjizara",
+    "\\Knjizara\\Controllers",
+    "\\Knjizara\\Views",
+    "\\Knjizara\\Views\\Shared",
+    "\\Knjizara\\Views\\ZaposleniRacun",
+    "\\Knjizara\\Views\\ZaposleniStavkaRacun"
+  ],
+  "SelectedNode": "\\Knjizara\\Views\\ZaposleniRacun\\ZaposleniRacunView.cshtml",
+  "PreviewInSolutionExplorer": false
+}

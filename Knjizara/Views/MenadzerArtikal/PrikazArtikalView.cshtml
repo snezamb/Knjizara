@@ -1,0 +1,86 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.Artikal
+
+@{
+    ViewBag.Title = "Prikaz artikla";
+    Layout = "~/Views/Shared/_ArtikalLayoutPage.cshtml";
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Podaci o artiklu</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("ArtikalIzmeni", "MenadzerArtikal", FormMethod.Post, new { @class = "form" }))
+        {
+            // pamti ArtikalID
+            @Html.HiddenFor(m => m.ArtikalID, Model.ArtikalID)
+
+            // polje za unos naziva artikla
+            <div class="form-group">
+                @Html.LabelFor(m => m.NazivArtikla, "Naziv artikla")
+                @Html.TextBoxFor(m => m.NazivArtikla, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.NazivArtikla, null, new { @class = "text-danger" })
+            </div>
+
+            // polje za unos cene artikla
+            <div class="form-group">
+                @Html.LabelFor(m => m.Cena, "Cena artikla")
+                @Html.TextBoxFor(m => m.Cena, null, new { @class = "form-control", id = "cenaArtikal" })
+                @Html.ValidationMessageFor(m => m.Cena, null, new { @class = "text-danger", id = "cenaArtikalValidacija" })
+            </div>
+
+            // polje za unos kolicine artikla
+            <div class="form-group">
+                @Html.LabelFor(m => m.Kolicina, "Kolicina artikla")
+                @Html.TextBoxFor(m => m.Kolicina, null, new { @class = "form-control", id = "kolicinaArtikal" })
+                @Html.ValidationMessageFor(m => m.Kolicina, null, new { @class = "text-danger", id = "kolicinaArtikalValidacija" })
+            </div>
+
+            // dropdownlist za izbor dobavljaca artikla
+            <div class="form-group">
+                @Html.LabelFor(m => m.Dobavljac, "Dobavljac artikla")
+                @Html.DropDownListFor(m => m.Dobavljac, new SelectList(Model.ListaDobavljaci, "DobavljacID", "NazivDobavljaca"))
+            </div>
+
+            <input type="submit" class="btn btn-info" value="Izmenite artikal" id="izmeniteArtikal" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var artikalCena = document.getElementById("cenaArtikal");
+    artikalCena.addEventListener("blur", proveraCena);
+
+    var artikalKolicina = document.getElementById("kolicinaArtikal");
+    artikalKolicina.addEventListener("blur", proveraKolicina);
+
+    var artikalIzmenite = document.getElementById("izmeniteArtikal");
+    artikalIzmenite.addEventListener("click", izmenite);
+
+    function proveraCena() {
+        var kolicina = document.getElementById("cenaArtikal").value;
+
+        if (!kolicina.match(/[0-9]+([.|,][0-9]+)?/)) {
+            document.getElementById("cenaArtikalValidacija").innerHTML = "Moze se uneti broj ili decimalan broj";
+            document.getElementById("cenaArtikal").focus();
+        }
+    }
+
+    function proveraKolicina() {
+        var kolicina = document.getElementById("kolicinaArtikal").value;
+
+        if (!kolicina.match(/^\d+/gm)) {
+            document.getElementById("kolicinaArtikalValidacija").innerHTML = "Moze se uneti cifra";
+            document.getElementById("kolicinaArtikal").focus();
+        }
+    }
+
+    function izmenite(e) {
+        var odgovor = confirm("Potvrdite izmenu artikla");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili izmenu artikla!");
+            e.preventDefault();
+        }
+    }
+</script>

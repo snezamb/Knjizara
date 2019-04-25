@@ -1,0 +1,74 @@
+﻿@using Knjizara.Models
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Spisak dobavljaca knjizare</div>
+    <div class="panel-body">
+        @if (TempData["PrikazDobavljac"] != null || TempData["PamtiStarDobavljac"] != null)
+        {
+            int brojac = 0;
+
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <th>Redni broj</th>
+                    <th>Sifra dobavljaca</th>
+                    <th>Naziv dobavljaca</th>
+                    <th>Adresa dobavljaca</th>
+                    <th>Telefon dobavljaca</th>
+                    <th>Aktivan dobavljac</th>
+                </thead>
+                <tbody>
+                    @foreach (DobavljacViewModel dobavljac in DobavljacMenadzer.PrikaziSveDobavljace())
+                    {
+                        if (dobavljac.DobavljacID == Convert.ToInt32(TempData["PrikazDobavljac"]) || dobavljac.DobavljacID == Convert.ToInt32(TempData["PamtiStarDobavljac"]))
+                        {
+                            brojac++;
+
+                            <tr>
+                                <td>@brojac</td>
+                                <td>@dobavljac.DobavljacID</td>
+                                <td>@dobavljac.NazivDobavljaca</td>
+                                <td>@dobavljac.Adresa</td>
+                                <td>@dobavljac.Telefon</td>
+                                @if (dobavljac.Aktivan == 1) { <td>Da</td>}
+                                else if (dobavljac.Aktivan == 0) { <td>Ne</td>}
+                                else { <td>--</td>}
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            int brojac = 0;
+
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <td>Redni broj</td>
+                    <td>Sifra dobavljaca</td>
+                    <td>Naziv dobavljaca</td>
+                    <td>Adresa dobavljaca</td>
+                    <td>Telefon dobavljaca</td>
+                    <td>Aktivan dobavljac</td>
+                </thead>
+                <tbody>
+                    @foreach (DobavljacViewModel dobavljac in DobavljacMenadzer.PrikaziSveDobavljace())
+                    {
+                        brojac++;
+
+                        <tr>
+                            <td>@brojac</td>
+                            <td>@dobavljac.DobavljacID</td>
+                            <td>@dobavljac.NazivDobavljaca</td>
+                            <td>@dobavljac.Adresa</td>
+                            <td>@dobavljac.Telefon</td>
+                            @if (dobavljac.Aktivan == 1) { <td>Da</td>}
+                            else if (dobavljac.Aktivan == 0) { <td>Ne</td>}
+                            else { <td>--</td>}
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

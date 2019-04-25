@@ -1,0 +1,63 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.Racun
+
+@{
+    ViewBag.Title = "Izmena racuna";
+    Layout = "~/Views/Shared/_RacunLayoutPage.cshtml";
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Racun @TempData["SifraRacun"]</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("StavkaRacunIzmeni", "ZaposleniStavkaRacun", FormMethod.Post, new { @class = "form" }))
+        {
+            // dropdownlist za izbor stavke racuna
+            <div class="form-group">
+                @Html.Label("Stavke racuna")
+                @Html.DropDownList("listaStavkiRacuna", (IEnumerable<SelectListItem>)ViewBag.podaciStavkeRacuna)
+            </div>
+
+            <input type="submit" class="btn btn-info" value="Izmenite stavku racuna @TempData["SifraRacun"]" id="izmeniteStavkaRacun" />
+        }
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">Kreirajte stavku racuna @TempData["SifraRacun"]</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("ZaposleniStavkaRacunView", "ZaposleniStavkaRacun", FormMethod.Post, new { @class = "form" }))
+        {
+            <div>
+                <input type="submit" class="btn btn-info" name="dugme" value="Kreirajte stavku racuna @TempData["SifraRacun"]" id="kreirajteStavkaRacun" />
+            </div>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var racunStavkaIzmenite = document.getElementById("izmeniteStavkaRacun");
+    racunStavkaIzmenite.addEventListener("click", sIzmenite);
+
+    var racunStavkaKreirajte = document.getElementById("kreirajteStavkaRacun");
+    racunStavkaKreirajte.addEventListener("click", sKreirajte);
+
+    function sIzmenite(e) {
+        var odgovor = confirm("Potvrdite izmenu stavke racuna");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili izmenu stavke racuna!");
+            e.preventDefault();
+        }
+    }
+
+    function sKreirajte(e) {
+        var odgovor = confirm("Potvrdite kreiranje stavke racuna");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili kreiranje stavke racuna!");
+            e.preventDefault();
+        }
+    }
+</script>

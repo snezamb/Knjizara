@@ -1,0 +1,63 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.StavkaNarudzbenica
+
+@{
+    ViewBag.Title = "Izmena stavke narudzbenice";
+    Layout = "~/Views/Shared/_StavkaNarudzbenicaLayoutPage.cshtml";
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Stavka narudzbenice @TempData["SifraNarudzbenica"]</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("IzmeniStavkaNarudzbenica", "ZaposleniStavkaNarudzbenica", FormMethod.Post, new { @class = "form" }))
+        {
+            // pamti Narudzbenica
+            @Html.HiddenFor(m => m.Narudzbenica, Model.Narudzbenica)
+
+            // pamti RedniBroj
+            @Html.HiddenFor(m => m.RedniBroj, Model.RedniBroj)
+
+            // dropdownlist za izbor artikla stavke narudzbenice
+            <div class="form-group">
+                @Html.LabelFor(m => m.Artikal, "Artikal stavke narudzbenice")
+                @Html.DropDownListFor(m => m.Artikal, new SelectList(Model.ListaArtikal, "ArtikalID", "NazivArtikla"), new { @class = "form-control" })
+            </div>
+
+            // polje za unos kolicine stavke narudzbenice
+            <div class="form-group">
+                @Html.LabelFor(m => m.Kolicina, "Kolicina stavke narudzbenice")
+                @Html.TextBoxFor(m => m.Kolicina, null, new { @class = "form-control", placeholder = "Unesite kolicinu stavke narudzbenice", id = "kolicinaStavka" })
+                @Html.ValidationMessageFor(m => m.Kolicina, null, new { @class = "text-danger", id = "kolicinaStavkaValidacija" })
+            </div>
+
+            <input type="submit" class="btn btn-info" value="Izmenite stavku narudzbenice @TempData["SifraNarudzbenica"]" id="izmeniteStavka" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var stavkaKolicina = document.getElementById("kolicinaStavka");
+    stavkaKolicina.addEventListener("blur", proveraKolicina);
+
+    var stavkaIzmenite = document.getElementById("izmeniteStavka");
+    stavkaIzmenite.addEventListener("click", sIzmenite);
+
+    function proveraKolicina() {
+        var kolicina = document.getElementById("kolicinaStavka").value;
+
+        if (!kolicina.match(/^\d+/gm)) {
+            document.getElementById("kolicinaStavkaValidacija").innerHTML = "Moze se uneti cifra";
+            document.getElementById("kolicinaStavka").focus();
+        }
+    }
+
+    function sIzmenite(e) {
+        var odgovor = confirm("Potvrdite izmenu stavke narudzbenice");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili izmenu stavke narudzbenice!");
+            e.preventDefault();
+        }
+    }
+</script>

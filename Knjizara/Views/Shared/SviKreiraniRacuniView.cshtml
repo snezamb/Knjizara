@@ -1,0 +1,46 @@
+﻿@using Knjizara.Models
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Racuni</div>
+    <div class="panel-body">
+        @if (TempData["zaposleni"] != null)
+        {
+            int brojac = 0;
+
+            <table class="table table-condensed table-hover">
+                <tbody>
+                    @foreach (RacunViewModel racun in RacunMenadzer.PrikaziSveRacune(TempData["zaposleni"].ToString()))
+                    {
+                        brojac++;
+                        <tr><td><b>Redni broj racuna</b></td><td><b>@brojac</b></td></tr>
+                        <tr><td>Sifra racuna</td><td>@racun.RacunID</td></tr>
+                        <tr><td>Datum racuna</td><td>@racun.Datum</td></tr>
+                        <tr><td>Stavke racuna</td></tr>
+                        <tr>
+                            <td>Redni broj</td>
+                            <td>Artikal</td>
+                            <td>Kolicina</td>
+                            <td>Cena</td>
+                        </tr>
+                        foreach (StavkaRacunViewModel stavka in RacunMenadzer.PrikaziSveStavkeRacuna(racun.RacunID))
+                        {
+                            <tr>
+                                <td>@stavka.RedniBroj</td>
+                                <td>@stavka.Artikal</td>
+                                <td>@stavka.Kolicina</td>
+                                <td>@stavka.Cena</td>
+                            </tr>
+                        }
+                        <tr><td>Ukupna cena racuna</td><td>@racun.UkupnaCena</td></tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table class="table table-condensed table-hover">
+                <thead>Trenutno nema racuna</thead>
+            </table>
+        }
+    </div>
+</div>

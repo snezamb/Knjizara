@@ -1,0 +1,46 @@
+﻿@using Knjizara.Models
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Racun @TempData["SifraRacun"]</div>
+    <div class="panel-body">
+        @if (TempData["SifraRacun"] != null)
+        {
+            <table class="table table-condensed table-hover">
+                <tbody>
+                    @foreach (RacunViewModel racun in RacunZaposleni.PrikaziSveRacune(User.Identity.Name))
+                    {
+                        if (racun.RacunID == Convert.ToInt32(TempData["SifraRacun"]))
+                        {
+                            <tr><td>Sifra racuna</td><td>@racun.RacunID</td></tr>
+                            <tr><td>Datum racuna</td><td>@racun.Datum</td></tr>
+                            <tr><td>Stavke racuna</td></tr>
+                            <tr>
+                                <td>Redni broj</td>
+                                <td>Artikal</td>
+                                <td>Kolicina</td>
+                                <td>Cena</td>
+                            </tr>
+                            foreach (StavkaRacunViewModel stavka in StavkaRacunZaposleni.PrikaziSveStavkeRacuna(Convert.ToInt32(TempData["SifraRacun"])))
+                            {
+                                <tr>
+                                    <td>@stavka.RedniBroj</td>
+                                    <td>@stavka.Artikal</td>
+                                    <td>@stavka.Kolicina</td>
+                                    <td>@stavka.Cena</td>
+                                </tr>
+                            }
+                            <tr><td>Ukupna cena racuna</td><td>@racun.UkupnaCena</td></tr>
+                            <tr><td>Zaposleni</td><td>@racun.Zaposleni</td></tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table class="table table-condensed table-hover">
+                <thead>Trenutno nema racuna</thead>
+            </table>
+        }
+    </div>
+</div>

@@ -1,0 +1,69 @@
+﻿@using Knjizara.Models
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Spisak korisnika knjizare</div>
+    <div class="panel-body">
+        @if (TempData["PrikazKorisnik"] != null || TempData["PamtiStarKorisnik"] != null)
+        {
+            int brojac = 0;
+
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <td>Redni broj</td>
+                    <td>Ime korisnika</td>
+                    <td>Prezime korisnika</td>
+                    <td>JMBG korisnika</td>
+                    <td>Uloga korisnika</td>
+                </thead>
+                <tbody>
+                    @foreach (KorisnikViewModel korisnik in KorisnikMenadzer.PrikaziSveKorisnike())
+                    {
+                        if ((korisnik.KorisnickoIme).Equals(TempData["PrikazKorisnik"]) || (korisnik.KorisnickoIme).Equals(TempData["PamtiStarKorisnik"]))
+                        {
+                            brojac++;
+
+                            <tr>
+                                <td>@brojac</td>
+                                <td>@korisnik.Ime</td>
+                                <td>@korisnik.Prezime</td>
+                                <td>@korisnik.JMBG</td>
+                                <td>@korisnik.Uloga</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            int brojac = 0;
+
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <td>Redni broj</td>
+                    <td>Ime korisnika</td>
+                    <td>Prezime korisnika</td>
+                    <td>JMBG korisnika</td>
+                    <td>Uloga korisnika</td>
+                </thead>
+                <tbody>
+                    @foreach (KorisnikViewModel korisnik in KorisnikMenadzer.PrikaziSveKorisnike())
+                    {
+                        if (!korisnik.Uloga.Equals("Nezaposleni"))
+                        {
+                            brojac++;
+
+                            <tr>
+                                <td>@brojac</td>
+                                <td>@korisnik.Ime</td>
+                                <td>@korisnik.Prezime</td>
+                                <td>@korisnik.JMBG</td>
+                                <td>@korisnik.Uloga</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

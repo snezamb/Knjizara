@@ -1,0 +1,35 @@
+﻿@using Knjizara.Models
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Spisak racuna</div>
+    <div class="panel-body">
+        @if (RacunZaposleni.PrikaziSveRacune(User.Identity.Name).Count() != 0)
+        {
+            <table class="table table-condensed table-hover">
+                <thead>
+                <td>Sifra racuna</td>
+                <td>Datum racuna</td>
+                <td>Ukupna cena racuna</td>
+                <td>Zaposleni</td>
+                </thead>
+                <tbody>
+                    @foreach (RacunViewModel racun in RacunZaposleni.PrikaziSveRacune(User.Identity.Name))
+                    {
+                        <tr>
+                            <td>@racun.RacunID</td>
+                            <td>@racun.Datum</td>
+                            <td>@racun.UkupnaCena</td>
+                            <td>@racun.Zaposleni</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table class="table table-condensed table-hover">
+                <thead>Trenutno nema racuna</thead>
+            </table>
+        }
+    </div>
+</div>

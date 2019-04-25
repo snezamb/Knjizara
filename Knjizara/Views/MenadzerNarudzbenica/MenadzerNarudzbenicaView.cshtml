@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Narudzbenice";
+    Layout = "~/Views/Shared/_MenadzerNarudzbenicaLayoutPage.cshtml";
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Zaposleni knjizare</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("NarudzbeniceZaposlenog", "MenadzerNarudzbenica", FormMethod.Post, new { @class = "form" }))
+        {
+            // dropdownlist za izbor zaposlenog
+            <div class="form-group">
+                @Html.Label("Zaposleni")
+                @Html.DropDownList("listaZaposleni", (IEnumerable<SelectListItem>)ViewBag.podaciZaposleni)
+            </div>
+
+            <input type="submit" class="btn btn-info" value="Prikazite narudzbenice zaposlenog" />
+        }
+    </div>
+</div>

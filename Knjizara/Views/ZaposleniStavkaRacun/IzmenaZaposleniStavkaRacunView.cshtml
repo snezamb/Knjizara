@@ -1,0 +1,63 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.StavkaRacun
+
+@{
+    ViewBag.Title = "Izmena stavke racuna";
+    Layout = "~/Views/Shared/_StavkaRacunLayoutPage.cshtml";
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Stavka racuna @TempData["SifraRacun"]</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("IzmeniStavkaRacun", "ZaposleniStavkaRacun", FormMethod.Post, new { @class = "form" }))
+        {
+            // pamti Racun
+            @Html.HiddenFor(m => m.Racun, Model.Racun)
+
+            // pamti RedniBroj
+            @Html.HiddenFor(m => m.RedniBroj, Model.RedniBroj)
+
+            // dropdownlist za izbor artikla stavke racuna
+            <div class="form-group">
+                @Html.LabelFor(m => m.Artikal, "Artikal stavke racuna")
+                @Html.DropDownListFor(m => m.Artikal, new SelectList(Model.ListaArtikal, "ArtikalID", "NazivArtikla"))
+            </div>
+
+            // polje za unos kolicine stavke racuna
+            <div class="form-group">
+                @Html.LabelFor(m => m.Kolicina, "Kolicina stavke racuna")
+                @Html.TextBoxFor(m => m.Kolicina, null, new { @class = "form-control", placeholder = "Unesite kolicinu stavke racuna", id = "kolicinaStavka" })
+                @Html.ValidationMessageFor(m => m.Kolicina, null, new { @class = "text-danger", id = "kolicinaStavkaValidacija" })
+            </div>
+
+            <input type="submit" class="btn btn-info" value="Izmenite stavku racuna @TempData["SifraRacun"]" id="izmeniteStavka" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var stavkaKolicina = document.getElementById("kolicinaStavka");
+    stavkaKolicina.addEventListener("blur", proveraKolicina);
+
+    var stavkaIzmenite = document.getElementById("izmeniteStavka");
+    stavkaIzmenite.addEventListener("click", sIzmenite);
+
+    function proveraKolicina() {
+        var kolicina = document.getElementById("kolicinaStavka").value;
+
+        if (!kolicina.match(/^\d+/gm)) {
+            document.getElementById("kolicinaStavkaValidacija").innerHTML = "Moze se uneti cifra";
+            document.getElementById("kolicinaStavka").focus();
+        }
+    }
+
+    function sIzmenite(e) {
+        var odgovor = confirm("Potvrdite izmenu stavke racuna");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili izmenu stavke racuna!");
+            e.preventDefault();
+        }
+    }
+</script>

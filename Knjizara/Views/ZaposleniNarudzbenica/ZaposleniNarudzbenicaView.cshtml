@@ -1,0 +1,95 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.Narudzbenica
+
+@{
+    ViewBag.Title = "Narudzbenica";
+    Layout = "~/Views/Shared/_NarudzbenicaLayoutPage.cshtml";
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Kreirajte novu narudzbenicu</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("NarudzbenicaKreiraj", "ZaposleniNarudzbenica", FormMethod.Post, new { @class = "form" }))
+        {
+            // polje za unos sifre narudzbenice
+            <div class="form-group">
+                @Html.LabelFor(m => m.NarudzbenicaID, "Sifra narudzbenice")
+                @Html.TextBoxFor(m => m.NarudzbenicaID, null, new { @class = "form-control", placeholder = "Unesite sifru narudzbenice", id = "sifraNarudzbenica" })
+                @Html.ValidationMessageFor(m => m.NarudzbenicaID, null, new { @class = "text-danger", id = "sifraNarudzbenicaValidacija" })
+            </div>
+
+            // polje za unos datuma narudzbenice
+            <div class="form-group">
+                @Html.LabelFor(m => m.Datum, "Datum narudzbenice")
+                @Html.TextBoxFor(m => m.Datum, null, new { @class = "form-control", placeholder = "Unesite datum narudzbenice", id = "datumNarudzbenica" })
+                @Html.ValidationMessageFor(m => m.Datum, null, new { @class = "text-danger", id = "datumNarudzbenicaValidacija" })
+            </div>
+
+            // polje za unos zaposlenog
+            <div class="form-group">
+                @Html.LabelFor(m => m.Zaposleni, "Zaposleni")
+                <p class="text-center">@User.Identity.Name</p>
+            </div>
+
+            <input type="submit" class="btn btn-info" value="Kreirajte stavke narudzbenice" id="kreirajteNovaNarudzbenica" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var narudzbenicaSifra = document.getElementById("sifraNarudzbenica");
+    narudzbenicaSifra.addEventListener("blur", proveraSifra);
+
+    var narudzbenicaDatum = document.getElementById("datumNarudzbenica");
+    narudzbenicaDatum.addEventListener("blur", proveraDatum);
+
+    var narudzbenicaKreirajteNovu = document.getElementById("kreirajteNovaNarudzbenica");
+    narudzbenicaKreirajteNovu.addEventListener("click", kreirajteNovu);
+
+    function proveraSifra() {
+        var sifra = document.getElementById("sifraNarudzbenica").value;
+
+        if (!sifra.match(/^\d+/gm)) {
+            document.getElementById("sifraNarudzbenicaValidacija").innerHTML = "Moze se uneti cifra";
+            document.getElementById("sifraNarudzbenica").focus();
+        }
+    }
+
+    function proveraDatum() {
+        var datum = document.getElementById("datumNarudzbenica").value;
+
+        if (!datum.match(/^(0[1-9]|[12]\d|3[01])[\/](0[1-9]|1[0-2])[\/](19|20)\d{2}$/g)) {
+            document.getElementById("datumNarudzbenicaValidacija").innerHTML = "Moze se uneti datum";
+            document.getElementById("datumNarudzbenica").focus();
+        }
+    }
+
+    function kreirajteNovu(e) {
+        var uslov = false;
+
+        var textPolja = document.getElementsByClassName("form-control");
+        for (element of textPolja) {
+            if (element.value == "" || element.value == null) {
+                element.placeholder = "Polje je obavezno";
+            }
+            else {
+                uslov = true;
+            }
+        }
+
+        if (uslov) {
+            var potvrda = confirm("Potvrdite kreiranje narudzbenice");
+
+            if (potvrda) {
+                e.default();
+            }
+            else {
+                alert("Niste kreirali narudzbenicu!");
+                e.preventDefault();
+            }
+        }
+        else {
+            alert("Niste kreirali narudzbenicu!");
+            e.preventDefault();
+        }
+    }
+</script>

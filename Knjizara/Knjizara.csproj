@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AB322A44-1002-4246-8C56-45C684A3497D}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Knjizara</RootNamespace>
+    <AssemblyName>Knjizara</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Diagnostics.DiagnosticSource">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.TelemetryCorrelation">
+      <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.0\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KupacController.cs" />
+    <Compile Include="Controllers\MenadzerArtikalController.cs" />
+    <Compile Include="Controllers\MenadzerDobavljacController.cs" />
+    <Compile Include="Controllers\MenadzerKorisnikController.cs" />
+    <Compile Include="Controllers\MenadzerNarudzbenicaController.cs" />
+    <Compile Include="Controllers\MenadzerRacunController.cs" />
+    <Compile Include="Controllers\RegistracijaPrijavaOdjavaController.cs" />
+    <Compile Include="Controllers\ZaposleniNarudzbenicaController.cs" />
+    <Compile Include="Controllers\ZaposleniRacunController.cs" />
+    <Compile Include="Controllers\ZaposleniStavkaNarudzbenicaController.cs" />
+    <Compile Include="Controllers\ZaposleniStavkaRacunController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Artikal.cs">
+      <DependentUpon>KnjizaraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ArtikalMenadzer.cs" />
+    <Compile Include="Models\ArtikalViewModel.cs" />
+    <Compile Include="Models\AutorizacijaAttribute.cs" />
+    <Compile Include="Models\Dobavljaci.cs">
+      <DependentUpon>KnjizaraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DobavljacMenadzer.cs" />
+    <Compile Include="Models\DobavljacViewModel.cs" />
+    <Compile Include="Models\KnjizaraModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KnjizaraModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KnjizaraModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KnjizaraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KnjizaraModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KnjizaraModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Korisnik.cs">
+      <DependentUpon>KnjizaraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KorisnikMenadzer.cs" />
+    <Compile Include="Models\KorisnikViewModel.cs" />
+    <Compile Include="Models\Kupac.cs" />
+    <Compile Include="Models\KupacViewModel.cs" />
+    <Compile Include="Models\Narudzbenica.cs">
+      <DependentUpon>KnjizaraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NarudzbenicaMenadzer.cs" />
+    <Compile Include="Models\NarudzbenicaViewModel.cs" />
+    <Compile Include="Models\NarudzbenicaZaposleni.cs" />
+    <Compile Include="Models\Racun.cs">
+      <DependentUpon>KnjizaraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RacunMenadzer.cs" />
+    <Compile Include="Models\RacunViewModel.cs" />
+    <Compile Include="Models\RacunZaposleni.cs" />
+    <Compile Include="Models\RegistracijaPrijavaOdjava.cs" />
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>KnjizaraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>KnjizaraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StavkaNarudzbenica.cs">
+      <DependentUpon>KnjizaraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StavkaNarudzbenicaViewModel.cs" />
+    <Compile Include="Models\StavkaNarudzbenicaZaposleni.cs" />
+    <Compile Include="Models\StavkaRacun.cs">
+      <DependentUpon>KnjizaraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StavkaRacunViewModel.cs" />
+    <Compile Include="Models\StavkaRacunZaposleni.cs" />
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>KnjizaraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Uloge.cs">
+      <DependentUpon>KnjizaraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ValidacijaCenaAttribute.cs" />
+    <Compile Include="Models\ValidacijaDatumAttribute.cs" />
+    <Compile Include="Models\ValidacijaKolicinaAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Uloge\Uloge.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Knjizara.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Models\KnjizaraModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KnjizaraModel.edmx</DependentUpon>
+      <LastGenOutput>KnjizaraModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\KnjizaraModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KnjizaraModel.edmx</DependentUpon>
+      <LastGenOutput>KnjizaraModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\KnjizaraModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>KnjizaraModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\KnjizaraModel.edmx.diagram">
+      <DependentUpon>KnjizaraModel.edmx</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_ArtikalLayoutPage.cshtml" />
+    <Content Include="Views\Shared\_DobavljacLayoutPage.cshtml" />
+    <Content Include="Views\Shared\_KorisnikLayoutPage.cshtml" />
+    <Content Include="Views\MenadzerArtikal\MenadzerArtikalView.cshtml" />
+    <Content Include="Views\MenadzerDobavljac\MenadzerDobavljacView.cshtml" />
+    <Content Include="Views\MenadzerKorisnik\MenadzerKorisnikView.cshtml" />
+    <Content Include="Views\RegistracijaPrijavaOdjava\KnjizaraView.cshtml" />
+    <Content Include="Views\Shared\_KnjizaraLayoutPage.cshtml" />
+    <Content Include="Views\Shared\SpisakArtikalaView.cshtml" />
+    <Content Include="Views\MenadzerArtikal\PrikazArtikalView.cshtml" />
+    <Content Include="Views\MenadzerDobavljac\PrikazDobavljacView.cshtml" />
+    <Content Include="Views\MenadzerKorisnik\PrikazKorisnikView.cshtml" />
+    <Content Include="Views\Shared\SpisakDobavljacaView.cshtml" />
+    <Content Include="Views\Shared\SpisakKorisnikaView.cshtml" />
+    <Content Include="Views\Shared\_RegistracijaPrijavaOdjavaLayoutPage.cshtml" />
+    <Content Include="Views\RegistracijaPrijavaOdjava\Registracija.cshtml" />
+    <Content Include="Views\RegistracijaPrijavaOdjava\Prijava.cshtml" />
+    <Content Include="Views\Shared\_IndexLayoutPage.cshtml" />
+    <Content Include="Views\Shared\Autorizacija.cshtml" />
+    <Content Include="Views\Shared\_RacunLayoutPage.cshtml" />
+    <Content Include="Views\ZaposleniRacun\ZaposleniRacunView.cshtml" />
+    <Content Include="Views\ZaposleniStavkaRacun\ZaposleniStavkaRacunView.cshtml" />
+    <Content Include="Views\Shared\_StavkaRacunLayoutPage.cshtml" />
+    <Content Include="Views\Shared\SpisakStavkiRacunaView.cshtml" />
+    <Content Include="Views\Shared\KreiranRacunView.cshtml" />
+    <Content Include="Views\ZaposleniRacun\PrikazZaposleniRacunView.cshtml" />
+    <Content Include="Views\ZaposleniRacun\IzmenaZaposleniRacunView.cshtml" />
+    <Content Include="Views\ZaposleniStavkaRacun\IzmenaZaposleniStavkaRacunView.cshtml" />
+    <Content Include="Views\ZaposleniRacun\ZaposleniSviRacuniView.cshtml" />
+    <Content Include="Views\Shared\_SviRacuniLayoutPage.cshtml" />
+    <Content Include="Views\Shared\SpisakRacunaView.cshtml" />
+    <Content Include="Views\Shared\_NarudzbenicaLayoutPage.cshtml" />
+    <Content Include="Views\Shared\_StavkaNarudzbenicaLayoutPage.cshtml" />
+    <Content Include="Views\Shared\_SveNarudzbeniceLayoutPage.cshtml" />
+    <Content Include="Views\Shared\KreiranaNarudzbenicaView.cshtml" />
+    <Content Include="Views\Shared\SpisakNarudzbenicaView.cshtml" />
+    <Content Include="Views\Shared\SpisakStavkiNarudzbeniceView.cshtml" />
+    <Content Include="Views\ZaposleniStavkaNarudzbenica\IzmenaZaposleniStavkaNarudzbenicaView.cshtml" />
+    <Content Include="Views\ZaposleniStavkaNarudzbenica\ZaposleniStavkaNarudzbenicaView.cshtml" />
+    <Content Include="Views\ZaposleniNarudzbenica\IzmenaZaposleniNarudzbenicaView.cshtml" />
+    <Content Include="Views\ZaposleniNarudzbenica\PrikazZaposleniNarudzbenicaView.cshtml" />
+    <Content Include="Views\ZaposleniNarudzbenica\ZaposleniNarudzbenicaView.cshtml" />
+    <Content Include="Views\ZaposleniNarudzbenica\ZaposleniSveNarudzbeniceView.cshtml" />
+    <Content Include="Views\MenadzerRacun\MenadzerRacunView.cshtml" />
+    <Content Include="Views\Shared\_MenadzerRacunLayoutPage.cshtml" />
+    <Content Include="Views\Shared\SviKreiraniRacuniView.cshtml" />
+    <Content Include="Views\Shared\_MenadzerNarudzbenicaLayoutPage.cshtml" />
+    <Content Include="Views\Shared\SveKreiraneNarudzbeniceView.cshtml" />
+    <Content Include="Views\MenadzerNarudzbenica\MenadzerNarudzbenicaView.cshtml" />
+    <Content Include="Views\Shared\_KupacLayoutPage.cshtml" />
+    <Content Include="Views\Kupac\KupacView.cshtml" />
+    <Content Include="Views\Shared\KupovinaKnjigaView.cshtml" />
+    <Content Include="Views\Home\KnjigeView.cshtml" />
+    <Content Include="Views\Shared\_KnjigeLayoutPage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>50142</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:50142/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

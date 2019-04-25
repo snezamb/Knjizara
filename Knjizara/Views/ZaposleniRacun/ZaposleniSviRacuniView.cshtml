@@ -1,0 +1,126 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.Racun
+
+@{
+    ViewBag.Title = "Svi racuni";
+    Layout = "~/Views/Shared/_SviRacuniLayoutPage.cshtml";
+}
+
+@if (TempData["IzmenaRacun"] != null)
+{
+    <div class="alert alert-success">Racun sa sifrom @TempData["IzmenaRacun"] je uspesno izmenjen</div>
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Izaberite opciju</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("SviRacuni", "ZaposleniRacun", FormMethod.Post, new { @class = "form" }))
+        {
+            <div>
+                <input type="submit" class="btn btn-info" name="dugme" value="Kreirajte nov racun" id="kreirajteRacun" />
+            </div>
+            <br /><br />
+            <div>
+                <input type="submit" class="btn btn-info" name="dugme" value="Izmenite stavke postojeceg racuna" id="izmeniteStavkeRacun" />
+            </div>
+        }
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">Izmenite postojeci racun</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("IzmenaRacun", "ZaposleniRacun", FormMethod.Post, new { @class = "form" }))
+        {
+            // dropdownlist za izbor racuna
+            <div class="form-group">
+                @Html.Label("Sifra racuna")
+                @Html.DropDownList("listaRacuna", (IEnumerable<SelectListItem>)ViewBag.podaciRacuni)
+            </div>
+
+            // polje za unos datuma racuna
+            <div class="form-group">
+                @Html.LabelFor(m => m.Datum, "Datum racuna")
+                @Html.TextBoxFor(m => m.Datum, null, new { @class = "form-control", placeholder = "Unesite datum racuna", id = "datumRacun" })
+                @Html.ValidationMessageFor(m => m.Datum, null, new { @class = "text-danger", id = "datumRacunValidacija" })
+            </div>
+
+            <div>
+                <input type="submit" class="btn btn-info" name="dugme" value="Izmenite postojeci racun" id="izmeniteRacun" />
+            </div>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var racunKreirajte = document.getElementById("kreirajteRacun");
+    racunKreirajte.addEventListener("click", kreirajte);
+
+    var stavkeRacunIzmenite = document.getElementById("izmeniteStavkeRacun");
+    stavkeRacunIzmenite.addEventListener("click", sIzmenite);
+
+    var racunDatum = document.getElementById("datumRacun");
+    racunDatum.addEventListener("blur", proveraDatum);
+
+    var racunIzmenite = document.getElementById("izmeniteRacun");
+    racunIzmenite.addEventListener("click", rIzmenite);
+
+    function kreirajte(e) {
+        var odgovor = confirm("Potvrdite kreiranje racuna");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili kreiranje racuna!");
+            e.preventDefault();
+        }
+    }
+
+    function sIzmenite(e) {
+        var odgovor = confirm("Potvrdite izmenu stavki racuna");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili izmenu stavki racuna!");
+            e.preventDefault();
+        }
+    }
+
+    function proveraDatum() {
+        var datum = document.getElementById("datumRacun").value;
+
+        if (!datum.match(/^(0[1-9]|[12]\d|3[01])[\/](0[1-9]|1[0-2])[\/](19|20)\d{2}$/g)) {
+            document.getElementById("datumRacunValidacija").innerHTML = "Moze se uneti datum";
+            document.getElementById("datumRacun").focus();
+        }
+    }
+
+    function rIzmenite(e) {
+        var uslov = false;
+
+        var textPolja = document.getElementsByClassName("form-control");
+        for (element of textPolja) {
+            if (element.value == "" || element.value == null) {
+                element.placeholder = "Polje je obavezno";
+            }
+            else {
+                uslov = true;
+            }
+        }
+
+        if (uslov) {
+            var potvrda = confirm("Potvrdite izmenu racuna");
+
+            if (potvrda) {
+                e.default();
+            }
+            else {
+                alert("Niste izmenili racun!");
+                e.preventDefault();
+            }
+        }
+        else {
+            alert("Niste izmenili racun!");
+            e.preventDefault();
+        }
+    }
+</script>

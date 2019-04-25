@@ -1,0 +1,162 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.Dobavljaci
+
+@{
+    ViewBag.Title = "Dobavljaci";
+    Layout = "~/Views/Shared/_DobavljacLayoutPage.cshtml";
+}
+
+@if (TempData["SifraDobavljaca"] != null && TempData["NazivDobavljaca"] != null)
+{
+    <div class="alert alert-success">Nov dobavljac sa sifrom @TempData["SifraDobavljaca"] i nazivom @TempData["NazivDobavljaca"] je uspesno unet u bazu knjizare</div>
+}
+
+@if (TempData["DobavljacSifra"] != null)
+{
+    <div class="alert alert-success">Dobavljac sa sifrom @TempData["DobavljacSifra"] je uspesno izbrisan iz baze knjizare</div>
+}
+
+@if (TempData["SifraIzmena"] != null)
+{
+    <div class="alert alert-success">Dobavljac sa sifrom @TempData["SifraIzmena"] je uspesno izmenjen u bazi knjizara</div>
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Unesite novog dobavljaca u bazu knjizare</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("DobavljacUnesi", "MenadzerDobavljac", FormMethod.Post, new { @class = "form" }))
+        {
+            // polje za unos sifre dobavljaca
+            <div class="form-group">
+                @Html.LabelFor(m => m.DobavljacID, "Sifra dobavljaca")
+                @Html.TextBoxFor(m => m.DobavljacID, null, new { @class = "form-control", placeholder = "Unesite sifru dobavljaca", id = "sifraDobavljac" })
+                @Html.ValidationMessageFor(m => m.DobavljacID, null, new { @class = "text-danger", id = "sifraDobavljacValidacija" })
+            </div>
+
+            // polje za unos naziva dobavljaca
+            <div class="form-group">
+                @Html.LabelFor(m => m.NazivDobavljaca, "Naziv dobavljaca")
+                @Html.TextBoxFor(m => m.NazivDobavljaca, null, new { @class = "form-control", placeholder = "Unesite naziv dobavljaca" })
+                @Html.ValidationMessageFor(m => m.NazivDobavljaca, null, new { @class = "text-danger" })
+            </div>
+
+            // polje za unos adrese dobavljaca
+            <div class="form-group">
+                @Html.LabelFor(m => m.Adresa, "Adresa dobavljaca")
+                @Html.TextBoxFor(m => m.Adresa, null, new { @class = "form-control", placeholder = "Unesite adresu dobavljaca" })
+                @Html.ValidationMessageFor(m => m.Adresa, null, new { @class = "text-danger" })
+            </div>
+
+            // polje za unos telefona dobavljaca
+            <div class="form-group">
+                @Html.LabelFor(m => m.Telefon, "Telefon dobavljaca")
+                @Html.TextBoxFor(m => m.Telefon, null, new { @class = "form-control", placeholder = "Unesite telefon dobavljaca", id = "telefonDobavljac" })
+                @Html.ValidationMessageFor(m => m.Telefon, null, new { @class = "text-danger", id = "telefonDobavljacValidacija" })
+            </div>
+
+            <input type="submit" class="btn btn-info" value="Unesite novog dobavljaca" id="unesiteNovDobavljac" />
+        }
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">Izaberite dobavljaca iz baze knjizare</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("DobavljacBrisiPrikazi", "MenadzerDobavljac", FormMethod.Post, new { @class = "form" }))
+        {
+            // dropdownlist za izbor dobavljaca
+            <div class="form-group">
+                @Html.LabelFor(m => m.NazivDobavljaca, "Naziv dobavljaca")
+                @Html.DropDownList("listaDobavljaca", (IEnumerable<SelectListItem>)ViewBag.podaciDobavljaci)
+            </div>
+
+            <input type="submit" class="btn btn-info" name="dugme" value="Izbrisite dobavljaca" id="izbrisiteDobavljac" />
+            <input type="submit" class="btn btn-info" name="dugme" value="Prikazite dobavljaca" id="prikaziteDobavljac" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var dobavljacSifra = document.getElementById("sifraDobavljac");
+    dobavljacSifra.addEventListener("blur", proveraSifra);
+
+    var dobavljacTelefon = document.getElementById("telefonDobavljac");
+    dobavljacTelefon.addEventListener("blur", proveraTelefon);
+
+    var dobavljacUnesiteNov = document.getElementById("unesiteNovDobavljac");
+    dobavljacUnesiteNov.addEventListener("click", unesiteNov);
+
+    var dobavljacIzbrisite = document.getElementById("izbrisiteDobavljac");
+    dobavljacIzbrisite.addEventListener("click", izbrisite);
+
+    var dobavljacPrikazite = document.getElementById("prikaziteDobavljac");
+    dobavljacPrikazite.addEventListener("click", prikazite);
+
+    function proveraSifra() {
+        var sifra = document.getElementById("sifraDobavljac").value;
+
+        if (!sifra.match(/^\d+/gm)) {
+            document.getElementById("sifraDobavljacValidacija").innerHTML = "Moze se uneti cifra";
+            document.getElementById("sifraDobavljac").focus();
+        }
+    }
+
+    function proveraTelefon() {
+        var telefon = document.getElementById("telefonDobavljac").value;
+
+        if (!telefon.match(/^[0-9]{7,7}$/)) {
+            document.getElementById("telefonDobavljacValidacija").innerHTML = "Moze se uneti sedam cifara";
+            document.getElementById("telefonDobavljac").focus();
+        }
+    }
+
+    function unesiteNov(e) {
+        var uslov = false;
+
+        var textPolja = document.getElementsByClassName("form-control");
+        for (element of textPolja) {
+            if (element.value == "" || element.value == null) {
+                element.placeholder = "Polje je obavezno";
+            }
+            else {
+                uslov = true;
+            }
+        }
+
+        if (uslov) {
+            var potvrda = confirm("Potvrdite unos dobavljaca");
+
+            if (potvrda) {
+                e.default();
+            }
+            else {
+                alert("Niste uneli dobavljaca!");
+                e.preventDefault();
+            }
+        }
+        else {
+            alert("Niste uneli dobavljaca!");
+            e.preventDefault();
+        }
+    }
+
+    function izbrisite(e) {
+        var odgovor = confirm("Potvrdite brisanje dobavljaca");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili brisanje dobavljaca!");
+            e.preventDefault();
+        }
+    }
+
+    function prikazite(e) {
+        var odgovor = confirm("Potvrdite prikazivanje dobavljaca");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili prikazivanje dobavljaca!");
+            e.preventDefault();
+        }
+    }
+</script>

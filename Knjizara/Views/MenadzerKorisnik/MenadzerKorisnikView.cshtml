@@ -1,0 +1,181 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.Korisnik
+
+@{
+    ViewBag.Title = "Korisnici";
+    Layout = "~/Views/Shared/_KorisnikLayoutPage.cshtml";
+}
+
+@if (TempData["ImeKorisnika"] != null && TempData["PrezimeKorisnika"] != null)
+{
+    <div class="alert alert-success">Nov korisnik s imenom @TempData["ImeKorisnika"] i prezimenom @TempData["PrezimeKorisnika"] je uspesno unet u bazu knjizare</div>
+}
+
+@if (TempData["KorisnikKorisnickoIme"] != null)
+{
+    <div class="alert alert-success">Korisnik s korisnickim imenom @TempData["KorisnikKorisnickoIme"] je uspesno izbrisan iz baze knjizare</div>
+}
+
+@if (TempData["KorisnickoImeIzmena"] != null)
+{
+    <div class="alert alert-success">Korisnik s korisnickim imenom @TempData["KorisnickoImeIzmena"] je uspesno izmenjen u bazi knjizara</div>
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Unesite novog korisnika u bazu knjizare</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("KorisnikUnesi", "MenadzerKorisnik", FormMethod.Post, new { @class = "form" }))
+        {
+            // polje za unos korisnickog imena korisnika
+            <div class="form-group">
+                @Html.LabelFor(m => m.KorisnickoIme, "Korisnicko ime korisnika")
+                @Html.TextBoxFor(m => m.KorisnickoIme, null, new { @class = "form-control", placeholder = "Unesite korisnicko ime korisnika" })
+                @Html.ValidationMessageFor(m => m.KorisnickoIme, null, new { @class = "text-danger" })
+            </div>
+
+            // polje za unos imena korisnika
+            <div class="form-group">
+                @Html.LabelFor(m => m.Ime, "Ime korisnika")
+                @Html.TextBoxFor(m => m.Ime, null, new { @class = "form-control", placeholder = "Unesite ime korisnika", id = "imeKorisnik" })
+                @Html.ValidationMessageFor(m => m.Ime, null, new { @class = "text-danger", id = "imeKorisnikValidacija" })
+            </div>
+
+            // polje za unos prezimena korisnika
+            <div class="form-group">
+                @Html.LabelFor(m => m.Prezime, "Prezime korisnika")
+                @Html.TextBoxFor(m => m.Prezime, null, new { @class = "form-control", placeholder = "Unesite prezime korisnika", id = "prezimeKorisnik" })
+                @Html.ValidationMessageFor(m => m.Prezime, null, new { @class = "text-danger", id = "prezimeKorisnikValidacija" })
+            </div>
+
+            // polje za unos JMBGa korisnika
+            <div class="form-group">
+                @Html.LabelFor(m => m.JMBG, "JMBG korisnika")
+                @Html.TextBoxFor(m => m.JMBG, null, new { @class = "form-control", placeholder = "Unesite JMBG korisnika", id = "jmbgKorisnik" })
+                @Html.ValidationMessageFor(m => m.JMBG, null, new { @class = "text-danger", id = "jmbgKorisnikValidacija" })
+            </div>
+
+            // polje za unos lozinke korisnika
+            <div class="form-group">
+                @Html.LabelFor(m => m.Lozinka, "Lozinka korisnika")
+                @Html.TextBoxFor(m => m.Lozinka, null, new { @class = "form-control", placeholder = "Unesite lozinku korisnika", @type = "password" })
+                @Html.ValidationMessageFor(m => m.Lozinka, null, new { @class = "text-danger" })
+            </div>
+
+            <input type="submit" class="btn btn-info" value="Unesite novog korisnika" id="unesiteNovKorisnik" />
+        }
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">Izaberite korisnika iz baze knjizare</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("KorisnikBrisiPrikazi", "MenadzerKorisnik", FormMethod.Post, new { @class = "form" }))
+        {
+            // dropdownlist za izbor korisnika
+            <div class="form-group">
+                @Html.Label("Ime i prezime korisnika")
+                @Html.DropDownList("listaKorisnika", (IEnumerable<SelectListItem>)ViewBag.podaciKorisnici)
+            </div>
+
+            <input type="submit" class="btn btn-info" name="dugme" value="Izbrisite korisnika" id="izbrisiteKorisnik" />
+            <input type="submit" class="btn btn-info" name="dugme" value="Prikazite korisnika" id="prikaziteKorisnik" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var korisnikIme = document.getElementById("imeKorisnik");
+    korisnikIme.addEventListener("blur", proveraIme);
+
+    var korisnikPrezime = document.getElementById("prezimeKorisnik");
+    korisnikPrezime.addEventListener("blur", proveraPrezime);
+
+    var korisnikJmbg = document.getElementById("jmbgKorisnik");
+    korisnikJmbg.addEventListener("blur", proveraJmbg);
+
+    var korisnikUnesiteNov = document.getElementById("unesiteNovKorisnik");
+    korisnikUnesiteNov.addEventListener("click", unesiteNov);
+
+    var korisnikIzbrisite = document.getElementById("izbrisiteKorisnik");
+    korisnikIzbrisite.addEventListener("click", izbrisite);
+
+    var korisnikPrikazite = document.getElementById("prikaziteKorisnik");
+    korisnikPrikazite.addEventListener("click", prikazite);
+
+    function proveraIme() {
+        var ime = document.getElementById("imeKorisnik").value;
+
+        if (!ime.match(/[a-zA-Z]+/g)) {
+            document.getElementById("imeKorisnikValidacija").innerHTML = "Moze se uneti malo ili veliko slovo";
+            document.getElementById("imeKorisnik").focus();
+        }
+    }
+
+    function proveraPrezime() {
+        var prezime = document.getElementById("prezimeKorisnik").value;
+
+        if (!prezime.match(/[a-zA-Z]+/g)) {
+            document.getElementById("prezimeKorisnikValidacija").innerHTML = "Moze se uneti malo ili veliko slovo";
+            document.getElementById("prezimeKorisnik").focus();
+        }
+    }
+
+    function proveraJmbg() {
+        var jmbg = document.getElementById("jmbgKorisnik").value;
+
+        if (!jmbg.match(/^[0-9]{13,13}$/)) {
+            document.getElementById("jmbgKorisnikValidacija").innerHTML = "Moze se uneti trinaest cifara";
+            document.getElementById("jmbgKorisnik").focus();
+        }
+    }
+
+    function unesiteNov(e) {
+        var uslov = false;
+
+        var textPolja = document.getElementsByClassName("form-control");
+        for (element of textPolja) {
+            if (element.value == "" || element.value == null) {
+                element.placeholder = "Polje je obavezno";
+            }
+            else {
+                uslov = true;
+            }
+        }
+
+        if (uslov) {
+            var potvrda = confirm("Potvrdite unos korisnika");
+
+            if (potvrda) {
+                e.default();
+            }
+            else {
+                alert("Niste uneli korisnika!");
+                e.preventDefault();
+            }
+        }
+        else {
+            alert("Niste uneli korisnika!");
+            e.preventDefault();
+        }
+    }
+
+    function izbrisite(e) {
+        var odgovor = confirm("Potvrdite brisanje korisnika");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili brisanje korisnika!");
+            e.preventDefault();
+        }
+    }
+
+    function prikazite(e) {
+        var odgovor = confirm("Potvrdite prikazivanje korisnika");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili prikazivanje korisnika!");
+            e.preventDefault();
+        }
+    }
+</script>

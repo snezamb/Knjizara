@@ -1,0 +1,126 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.Narudzbenica
+
+@{
+    ViewBag.Title = "Sve narudzbenice";
+    Layout = "~/Views/Shared/_SveNarudzbeniceLayoutPage.cshtml";
+}
+
+@if (TempData["IzmenaNarudzbenica"] != null)
+{
+    <div class="alert alert-success">Narudzbenica sa sifrom @TempData["IzmenaNarudzbenica"] je uspesno izmenjena</div>
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Izaberite opciju</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("SveNarudzbenice", "ZaposleniNarudzbenica", FormMethod.Post, new { @class = "form" }))
+        {
+            <div>
+                <input type="submit" class="btn btn-info" name="dugme" value="Kreirajte novu narudzbenicu" id="kreirajteNarudzbenica" />
+            </div>
+            <br /><br />
+            <div>
+                <input type="submit" class="btn btn-info" name="dugme" value="Izmenite stavke postojece narudzbenice" id="izmeniteStavkeNarudzbenica" />
+            </div>
+        }
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">Izmenite postojecu narudzbenicu</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("IzmenaNarudzbenica", "ZaposleniNarudzbenica", FormMethod.Post, new { @class = "form" }))
+        {
+            // dropdownlist za izbor narudzbenice
+            <div class="form-group">
+                @Html.Label("Sifra narudzbenice")
+                @Html.DropDownList("listaNarudzbenica", (IEnumerable<SelectListItem>)ViewBag.podaciNarudzbenice)
+            </div>
+
+            // polje za unos datuma narudzbenice
+            <div class="form-group">
+                @Html.LabelFor(m => m.Datum, "Datum narudzbenice")
+                @Html.TextBoxFor(m => m.Datum, null, new { @class = "form-control", placeholder = "Unesite datum narudzbenice", id = "datumNarudzbenica" })
+                @Html.ValidationMessageFor(m => m.Datum, null, new { @class = "text-danger", id = "datumNarudzbenicaValidacija" })
+            </div>
+
+            <div>
+                <input type="submit" class="btn btn-info" name="dugme" value="Izmenite postojecu narudzbenicu" id="izmeniteNarudzbenica" />
+            </div>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var narudzbenicaKreirajte = document.getElementById("kreirajteNarudzbenica");
+    narudzbenicaKreirajte.addEventListener("click", kreirajte);
+
+    var stavkeNarudzbenicaIzmenite = document.getElementById("izmeniteStavkeNarudzbenica");
+    stavkeNarudzbenicaIzmenite.addEventListener("click", sIzmenite);
+
+    var narudzbenicaDatum = document.getElementById("datumNarudzbenica");
+    narudzbenicaDatum.addEventListener("blur", proveraDatum);
+
+    var narudzbenicaIzmenite = document.getElementById("izmeniteNarudzbenica");
+    narudzbenicaIzmenite.addEventListener("click", rIzmenite);
+
+    function kreirajte(e) {
+        var odgovor = confirm("Potvrdite kreiranje narudzbenice");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili kreiranje narudzbenice!");
+            e.preventDefault();
+        }
+    }
+
+    function sIzmenite(e) {
+        var odgovor = confirm("Potvrdite izmenu stavki narudzbenice");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili izmenu stavki narudzbenice!");
+            e.preventDefault();
+        }
+    }
+
+    function proveraDatum() {
+        var datum = document.getElementById("datumNarudzbenica").value;
+
+        if (!datum.match(/^(0[1-9]|[12]\d|3[01])[\/](0[1-9]|1[0-2])[\/](19|20)\d{2}$/g)) {
+            document.getElementById("datumNarudzbenicaValidacija").innerHTML = "Moze se uneti datum";
+            document.getElementById("datumNarudzbenica").focus();
+        }
+    }
+
+    function rIzmenite(e) {
+        var uslov = false;
+
+        var textPolja = document.getElementsByClassName("form-control");
+        for (element of textPolja) {
+            if (element.value == "" || element.value == null) {
+                element.placeholder = "Polje je obavezno";
+            }
+            else {
+                uslov = true;
+            }
+        }
+
+        if (uslov) {
+            var potvrda = confirm("Potvrdite izmenu narudzbenice");
+
+            if (potvrda) {
+                e.default();
+            }
+            else {
+                alert("Niste izmenili narudzbenicu!");
+                e.preventDefault();
+            }
+        }
+        else {
+            alert("Niste izmenili narudzbenicu!");
+            e.preventDefault();
+        }
+    }
+</script>

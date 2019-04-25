@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Prijava";
+    Layout = "~/Views/Shared/_RegistracijaPrijavaOdjavaLayoutPage.cshtml";
+}
+
+<h3 class="page-header text-center">Prijava</h3>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Korisnik</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("Prijava", "RegistracijaPrijavaOdjava", FormMethod.Post, new { @class = "form" }))
+        {
+            // polje za unos korisnickog imena korisnika
+            <div class="form-group">
+                @Html.Label("KorisnickoIme", "Korisnicko ime", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBox("KorisnickoIme", null, new { @class = "form-control", placeholder = "Unesite korisnicko ime korisnika" })
+                    @Html.ValidationMessage("KorisnickoIme", null, new { @class = "text-danger" })
+                </div>
+            </div>
+
+            // polje za unos lozinke korisnika
+            <div class="form-group">
+                @Html.Label("Lozinka", "Lozinka", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBox("Lozinka", null, new { @class = "form-control", placeholder = "Unesite lozinku korisnika", @type = "password" })
+                    @Html.ValidationMessage("Lozinka", null, new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="text-center">
+                @Html.ValidationMessage("Prijava", null, new { @class = "text-danger" })
+            </div>
+
+            <input type="submit" class="btn btn-primary center-block" value="Prijava korisnika" id="prijavaKorisnika" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var korisnikPrijava = document.getElementById("prijavaKorisnika");
+    korisnikPrijava.addEventListener("click", prijava);
+
+    function prijava(e) {
+        var uslov = false;
+
+        var textPolja = document.getElementsByClassName("form-control");
+        for (element of textPolja) {
+            if (element.value == "" || element.value == null) {
+                element.placeholder = "Polje je obavezno";
+            }
+            else {
+                uslov = true;
+            }
+        }
+
+        if (uslov) {
+            e.default();
+        }
+        else {
+            alert("Niste uneli korisnicko ime i lozinku!");
+            e.preventDefault();
+        }
+    }
+</script>

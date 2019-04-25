@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = " Neuspesna autorizacija";
+    Layout = "~/Views/Shared/_KnjizaraLayoutPage.cshtml";
+}
+
+<h1 class="page-header text-center">Neuspesna autorizacija</h1>
+<div class="container">
+    <div class="row">
+        <table class="table table-condensed table-hover">
+            <td>@Html.ActionLink("Knjige", "KupacView", "Kupac", null, new { @class = "text-center" })</td>
+            <td>@Html.ActionLink("Artikli", "MenadzerArtikalView", "MenadzerArtikal", null, new { @class = "text-center" })</td>
+            <td>@Html.ActionLink("Dobavljaci", "MenadzerDobavljacView", "MenadzerDobavljac", null, new { @class = "text-center" })</td>
+            <td>@Html.ActionLink("Korisnici", "MenadzerKorisnikView", "MenadzerKorisnik", null, new { @class = "text-center" })</td>
+            <td>@Html.ActionLink("Narudzbenice", "ZaposleniSveNarudzbeniceView", "ZaposleniNarudzbenica", null, new { @class = "text-center" })</td>
+            <td>@Html.ActionLink("Narudzbenice knjizare", "MenadzerNarudzbenicaView", "MenadzerNarudzbenica", null, new { @class = "text-center" })</td>
+            <td>@Html.ActionLink("Racuni", "ZaposleniSviRacuniView", "ZaposleniRacun", null, new { @class = "text-center" })</td>
+            <td>@Html.ActionLink("Racuni knjizare", "MenadzerRacunView", "MenadzerRacun", null, new { @class = "text-center" })</td>
+        </table>
+    </div>
+    <div class=" row">
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <div class="text-center">@ViewData["Autorizacija"]</div>
+            </div>
+        </div>
+    </div>
+</div>

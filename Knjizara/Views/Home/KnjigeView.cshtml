@@ -1,0 +1,20 @@
+﻿@using Knjizara.Models
+
+@{
+    ViewBag.Title = "Knjige";
+    Layout = "~/Views/Shared/_KnjigeLayoutPage.cshtml";
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Knjige u knjizari</div>
+    <div class="panel-body">
+        @foreach (ArtikalViewModel knjiga in Kupac.PrikaziSveArtikleKnjizare())
+        {
+            <img src="~/Content/Knjiga.jpg" alt="Knjiga" width="100" height="50" />
+            @Html.Label(knjiga.NazivArtikla)
+            <br />
+            <br />
+            <br />
+        }
+    </div>
+</div>

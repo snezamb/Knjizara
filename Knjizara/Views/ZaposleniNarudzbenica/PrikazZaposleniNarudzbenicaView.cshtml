@@ -1,0 +1,57 @@
+﻿@using Knjizara.Models
+
+@{
+    ViewBag.Title = "Prikaz narudzbenice";
+    Layout = "~/Views/Shared/_NarudzbenicaLayoutPage.cshtml";
+}
+
+@if (TempData["SifraNarudzbenica"] != null && TempData["StavkaNarudzbenicaIzmena"] != null)
+{
+    <div class="alert alert-success">Stavka narudzbenice @TempData["SifraNarudzbenica"] s rednim brojem @TempData["StavkaNarudzbenicaIzmena"] je uspesno izmenjena</div>
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Kreirane narudzbenice</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("KreiranaNarudzbenica", "ZaposleniNarudzbenica", FormMethod.Post, new { @class = "form" }))
+        {
+            // dropdownlist za izbor narudzbenice
+            <div class="form-group">
+                @Html.Label("Sifra narudzbenice")
+                @Html.DropDownList("listaNarudzbenica", (IEnumerable<SelectListItem>)ViewBag.podaciNarudzbenice)
+            </div>
+
+            <input type="submit" class="btn btn-info" name="dugme" value="Prikazite kreiranu narudzbenicu" id="prikaziteNarudzbenica" />
+            <input type="submit" class="btn btn-info" name="dugme" value="Izmenite kreiranu narudzbenicu" id="izmeniteNarudzbenica" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var narudzbenicaPrikazite = document.getElementById("prikaziteNarudzbenica");
+    narudzbenicaPrikazite.addEventListener("click", kreirajte);
+
+    var narudzbenicaIzmenite = document.getElementById("izmeniteNarudzbenica");
+    narudzbenicaIzmenite.addEventListener("click", izmenite);
+
+    function kreirajte(e) {
+        var odgovor = confirm("Potvrdite prikazivanje narudzbenice");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili prikazivanje narudzbenice!");
+            e.preventDefault();
+        }
+    }
+
+    function izmenite(e) {
+        var odgovor = confirm("Potvrdite izmenu narudzbenice");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili izmenu narudzbenice!");
+            e.preventDefault();
+        }
+    }
+</script>

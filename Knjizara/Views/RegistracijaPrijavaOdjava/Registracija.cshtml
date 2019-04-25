@@ -1,0 +1,120 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.Korisnik
+
+@{
+    ViewBag.Title = "Registracija";
+    Layout = "~/Views/Shared/_RegistracijaPrijavaOdjavaLayoutPage.cshtml";
+}
+
+<h3 class="page-header text-center">Registracija</h3>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Nov korisnik</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("Registracija", "RegistracijaPrijavaOdjava", FormMethod.Post, new { @class = "form" }))
+        {
+            // polje za unos korisnickog imena korisnika
+            <div class="form-group">
+                @Html.LabelFor(m => m.KorisnickoIme, "Korisnicko ime", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.KorisnickoIme, null, new { @class = "form-control", placeholder = "Unesite korisnicko ime korisnika" })
+                    @Html.ValidationMessageFor(m => m.KorisnickoIme, null, new { @class = "text-danger" })
+                </div>                
+            </div>
+
+            // polje za unos imena korisnika
+            <div class="form-group">
+                @Html.LabelFor(m => m.Ime, "Ime", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Ime, null, new { @class = "form-control", placeholder = "Unesite ime korisnika", id = "imeKorisnik" })
+                    @Html.ValidationMessageFor(m => m.Ime, null, new { @class = "text-danger", id = "imeKorisnikValidacija" })
+                </div>                
+            </div>
+
+            // polje za unos prezimena korisnika
+            <div class="form-group">
+                @Html.LabelFor(m => m.Prezime, "Prezime", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Prezime, null, new { @class = "form-control", placeholder = "Unesite prezime korisnika", id = "prezimeKorisnik" })
+                    @Html.ValidationMessageFor(m => m.Prezime, null, new { @class = "text-danger", id = "prezimeKorisnikValidacija" })
+                </div>
+            </div>                
+
+            // polje za unos JMBGa korisnika
+            <div class="form-group">
+                @Html.LabelFor(m => m.JMBG, "JMBG", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.JMBG, null, new { @class = "form-control", placeholder = "Unesite JMBG korisnika", id = "jmbgKorisnik" })
+                    @Html.ValidationMessageFor(m => m.JMBG, null, new { @class = "text-danger", id = "jmbgKorisnikValidacija" })
+                </div>                
+            </div>
+
+            // polje za unos lozinke korisnika
+            <div class="form-group">
+                @Html.LabelFor(m => m.Lozinka, "Lozinka", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Lozinka, null, new { @class = "form-control", placeholder = "Unesite lozinku korisnika", @type = "password" })
+                    @Html.ValidationMessageFor(m => m.Lozinka, null, new { @class = "text-danger" })
+                </div>                
+            </div>
+
+            <input type="submit" class="btn btn-primary center-block" value="Registracija korisnika" id="registracijaKorisnika" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var korisnikIme = document.getElementById("imeKorisnik");
+    korisnikIme.addEventListener("blur", proveraIme);
+
+    var korisnikPrezime = document.getElementById("prezimeKorisnik");
+    korisnikPrezime.addEventListener("blur", proveraPrezime);
+
+    var korisnikJmbg = document.getElementById("jmbgKorisnik");
+    korisnikJmbg.addEventListener("blur", proveraJmbg);
+
+    var korisnikRegistracija = document.getElementById("registracijaKorisnika");
+    korisnikRegistracija.addEventListener("click", registracija);
+
+    function proveraIme() {
+        var ime = document.getElementById("imeKorisnik").value;
+
+        if (!ime.match(/[a-zA-Z]+/g)) {
+            document.getElementById("imeKorisnikValidacija").innerHTML = "Moze se uneti malo ili veliko slovo";
+            document.getElementById("imeKorisnik").focus();
+        }
+    }
+
+    function proveraPrezime() {
+        var prezime = document.getElementById("prezimeKorisnik").value;
+
+        if (!prezime.match(/[a-zA-Z]+/g)) {
+            document.getElementById("prezimeKorisnikValidacija").innerHTML = "Moze se uneti malo ili veliko slovo";
+            document.getElementById("prezimeKorisnik").focus();
+        }
+    }
+
+    function proveraJmbg() {
+        var jmbg = document.getElementById("jmbgKorisnik").value;
+
+        if (!jmbg.match(/^[0-9]{13,13}$/)) {
+            document.getElementById("jmbgKorisnikValidacija").innerHTML = "Moze se uneti trinaest cifara";
+            document.getElementById("jmbgKorisnik").focus();
+        }
+    }
+
+    function registracija(e) {
+        var odgovor = prompt("Potvrdite registraciju", "Da ili Ne");
+        if (odgovor == "Da") {
+            e.default();
+        }
+        else if (odgovor == "Ne") {
+            e.preventDefault();
+            document.location.reload(true);
+        }
+        else {
+            alert("Niste potrvdili registraciju!");
+            e.preventDefault();
+            document.location.reload(true);
+        }
+    }
+</script>

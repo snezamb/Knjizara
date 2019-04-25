@@ -1,0 +1,123 @@
+﻿@using Knjizara.Models
+@model Knjizara.Models.StavkaNarudzbenica
+
+@{
+    ViewBag.Title = "Stavka narudzbenice";
+    Layout = "~/Views/Shared/_StavkaNarudzbenicaLayoutPage.cshtml";
+}
+
+@if (TempData["NarudzbenicaStavka"] != null)
+{
+    <div class="alert alert-success">Nova stavka narudzbenice @TempData["SifraNarudzbenica"] s rednim brojem @TempData["NarudzbenicaStavka"] je uspesno kreirana</div>
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Kreirajte novu stavku narudzbenice @TempData["SifraNarudzbenica"]</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("StavkaNarudzbenicaKreiraj", "ZaposleniStavkaNarudzbenica", FormMethod.Post, new { @class = "form" }))
+        {
+            // polje za unos rednog broja stavke narudzbenice
+            <div class=" form-group">
+                @Html.LabelFor(m => m.RedniBroj, "Redni broj stavke narudzbenice")
+                @Html.TextBoxFor(m => m.RedniBroj, null, new { @class = "form-control", placeholder = "Unesite redni broj stavke narudzbenice", id = "redniBrojStavka" })
+                @Html.ValidationMessageFor(m => m.RedniBroj, null, new { @class = "text-danger", id = "redniBrojStavkaValidacija" })
+            </div>
+
+            // dropdownlist za izbor artikla stavke narudzbenice
+            <div class="form-group">
+                @Html.LabelFor(m => m.Artikal, "Artikal stavke narudzbenice")
+                @Html.DropDownList("listaArtikala", (IEnumerable<SelectListItem>)ViewBag.podaciArtikli)
+            </div>
+
+            // polje za unos kolicine stavke narudzbenice
+            <div class="form-group">
+                @Html.LabelFor(m => m.Kolicina, "Kolicina stavke narudzbenice")
+                @Html.TextBoxFor(m => m.Kolicina, null, new { @class = "form-control", placeholder = "Unesite kolicinu stavke narudzbenice", id = "kolicinaStavka" })
+                @Html.ValidationMessageFor(m => m.Kolicina, null, new { @class = "text-danger", id = "kolicinaStavkaValidacija" })
+            </div>
+
+            <input type="submit" class="btn btn-info" value="Kreirajte stavku narudzbenice" id="kreirajteStavka" />
+        }
+    </div>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">Potvrdite</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("KreiranaNarudzbenica", "ZaposleniNarudzbenica", FormMethod.Post, new { @class = "form" }))
+        {
+            <input type="submit" class="btn btn-info" value="Stavke narudzbenice @TempData["SifraNarudzbenica"] su kreirane" id="kreiraneStavke" />
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    var stavkaRedniBroj = document.getElementById("redniBrojStavka");
+    stavkaRedniBroj.addEventListener("blur", proveraRedniBroj);
+
+    var stavkaKolicina = document.getElementById("kolicinaStavka");
+    stavkaKolicina.addEventListener("blur", proveraKolicina);
+
+    var stavkaKreirajte = document.getElementById("kreirajteStavka");
+    stavkaKreirajte.addEventListener("click", sKreirajte);
+
+    var stavkeKreirane = document.getElementById("kreiraneStavke");
+    stavkeKreirane.addEventListener("click", sKreirane);
+
+    function proveraRedniBroj() {
+        var redniBroj = document.getElementById("redniBrojStavka").value;
+
+        if (!redniBroj.match(/^\d+/gm)) {
+            document.getElementById("redniBrojStavkaValidacija").innerHTML = "Moze se uneti cifra";
+            document.getElementById("redniBrojStavka").focus();
+        }
+    }
+
+    function proveraKolicina() {
+        var kolicina = document.getElementById("kolicinaStavka").value;
+
+        if (!kolicina.match(/^\d+/gm)) {
+            document.getElementById("kolicinaStavkaValidacija").innerHTML = "Moze se uneti cifra";
+            document.getElementById("kolicinaStavka").focus();
+        }
+    }
+
+    function sKreirajte(e) {
+        var uslov = false;
+
+        var textPolja = document.getElementsByClassName("form-control");
+        for (element of textPolja) {
+            if (element.value == "" || element.value == null) {
+                element.placeholder = "Polje je obavezno";
+            }
+            else {
+                uslov = true;
+            }
+        }
+
+        if (uslov) {
+            var potvrda = confirm("Potvrdite kreiranje stavke narudzbenice");
+
+            if (potvrda) {
+                e.default();
+            }
+            else {
+                alert("Niste kreirali stavku narudzbenice!");
+                e.preventDefault();
+            }
+        }
+        else {
+            alert("Niste kreirali stavku narudzbenice!");
+            e.preventDefault();
+        }
+    }
+
+    function sKreirane(e) {
+        var odgovor = confirm("Potvrdite kreiranje stavki narudzbenice");
+        if (odgovor) {
+            e.default();
+        }
+        else {
+            alert("Niste potvrdili kreiranje stavki narudzbenice!");
+            e.preventDefault();
+        }
+    }
+</script>

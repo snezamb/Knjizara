@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header class="page-header row">
+        @if (Request.IsAuthenticated)
+        {
+            <div class="col-md-4 col-md-offset-8 text-right">
+                Prijavljeni ste kao @User.Identity.Name
+                <br />
+                @Html.ActionLink("Odjava", "Odjava", "RegistracijaPrijavaOdjava", null, new { @class = "text-right" })
+            </div>
+        }
+    </header>
+    <div class="container">
+        <div class="row">
+            <table class="table table-condensed table-hover">
+                <td>@Html.ActionLink("Knjige", "KupacView", "Kupac", null, new { @class = "text-center" })</td>
+                <td>@Html.ActionLink("Artikli", "MenadzerArtikalView", "MenadzerArtikal", null, new { @class = "text-center" })</td>
+                <td>@Html.ActionLink("Dobavljaci", "MenadzerDobavljacView", "MenadzerDobavljac", null, new { @class = "text-center" })</td>
+                <td>@Html.ActionLink("Korisnici", "MenadzerKorisnikView", "MenadzerKorisnik", null, new { @class = "text-center" })</td>
+                <td>@Html.ActionLink("Narudzbenice", "ZaposleniSveNarudzbeniceView", "ZaposleniNarudzbenica", null, new { @class = "text-center" })</td>
+                <td>@Html.ActionLink("Narudzbenice knjizare", "MenadzerNarudzbenicaView", "MenadzerNarudzbenica", null, new { @class = "text-center" })</td>
+                <td>@Html.ActionLink("Racuni", "ZaposleniSviRacuniView", "ZaposleniRacun", null, new { @class = "text-center" })</td>
+                <td>@Html.ActionLink("Racuni knjizare", "MenadzerRacunView", "MenadzerRacun", null, new { @class = "text-center" })</td>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="page-header text-center">Stavka racuna</h1>
+                @RenderBody()
+            </div>
+            <div class="col-md-6">
+                <h1 class="page-header text-center">Stavke racuna</h1>
+                @Html.Partial("SpisakStavkiRacunaView")
+            </div>
+        </div>
+    </div>
+</body>
+</html>

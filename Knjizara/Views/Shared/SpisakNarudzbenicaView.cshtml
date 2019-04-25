@@ -1,0 +1,35 @@
+﻿@using Knjizara.Models
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Spisak narudzbenica</div>
+    <div class="panel-body">
+        @if (NarudzbenicaZaposleni.PrikaziSveNarudzbenice(User.Identity.Name).Count() != 0)
+        {
+            <table class="table table-condensed table-hover">
+                <thead>
+                <td>Sifra narudzbenice</td>
+                <td>Datum narudzbenice</td>
+                <td>Ukupna cena narudzbenice</td>
+                <td>Zaposleni</td>
+                </thead>
+                <tbody>
+                    @foreach (NarudzbenicaViewModel narudzbenica in NarudzbenicaZaposleni.PrikaziSveNarudzbenice(User.Identity.Name))
+                    {
+                        <tr>
+                            <td>@narudzbenica.NarudzbenicaID</td>
+                            <td>@narudzbenica.Datum</td>
+                            <td>@narudzbenica.UkupnaCena</td>
+                            <td>@narudzbenica.Zaposleni</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table class="table table-condensed table-hover">
+                <thead>Trenutno nema narudzbenice</thead>
+            </table>
+        }
+    </div>
+</div>
